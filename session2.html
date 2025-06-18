@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Quality Engineering Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .example-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .cost-chart {
+            display: flex;
+            align-items: end;
+            height: 200px;
+            margin: 20px 0;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .cost-bar {
+            flex: 1;
+            margin: 0 10px;
+            text-align: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .cost-bar-spec { background: #4caf50; height: 20px; }
+        .cost-bar-design { background: #ff9800; height: 40px; }
+        .cost-bar-code { background: #f44336; height: 80px; }
+        .cost-bar-release { background: #9c27b0; height: 160px; }
+        
+        .quality-attributes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .attribute-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .attribute-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .process-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .process-step {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px;
+            position: relative;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            color: #667eea;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            background: #e9ecef;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .quality-attributes {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-step::after {
+                content: '↓';
+                right: 50%;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Software Quality Engineering</h1>
+            <p>Complete Study Guide for Your Exam</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('software-crisis')">Software Crisis</button>
+            <button class="tab-button" onclick="showTab('cost-bugs')">Cost of Bugs</button>
+            <button class="tab-button" onclick="showTab('quality-concept')">Quality Concept</button>
+            <button class="tab-button" onclick="showTab('quality-attributes')">Quality Attributes</button>
+            <button class="tab-button" onclick="showTab('qa-qc')">QA vs QC</button>
+            <button class="tab-button" onclick="showTab('verification-validation')">V&V</button>
+            <button class="tab-button" onclick="showTab('quiz')">Practice Quiz</button>
+        </div>
+        
+        <!-- Software Crisis Section -->
+        <div id="software-crisis" class="content-section active">
+            <h2>🚨 Software Crisis</h2>
+            
+            <div class="concept-card">
+                <h3>What is Software Crisis?</h3>
+                <p>Software crisis is a result of challenges, failures, and inefficiencies in producing software systems. Think of it as when software projects go terribly wrong!</p>
+            </div>
+            
+            <h3>Major Problems in Software Development:</h3>
+            
+            <div class="concept-card">
+                <h4>1. Complexity 🧩</h4>
+                <p><strong>Problem:</strong> Software systems become too complex to manage effectively.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A banking system with millions of transactions, multiple user types, security requirements, and integration with other systems becomes incredibly complex to develop and maintain.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>2. Cost Overruns 💸</h4>
+                <p><strong>Problem:</strong> Projects exceed their planned budgets significantly.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A project budgeted for $1 million ends up costing $3 million due to scope changes, technical difficulties, and extended timelines.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>3. Schedule Delays ⏰</h4>
+                <p><strong>Problem:</strong> Software is delivered much later than promised.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A mobile app planned for 6 months takes 18 months to complete due to changing requirements and technical challenges.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>4. Quality Issues 🐛</h4>
+                <p><strong>Problem:</strong> Software contains bugs, crashes frequently, or doesn't meet user expectations.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A released software crashes when users perform common tasks, leading to customer complaints and reputation damage.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>5. Inadequate Methodologies 📋</h4>
+                <p><strong>Problem:</strong> Poor development processes and lack of standardized approaches.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A team starts coding without proper planning, requirements analysis, or testing procedures, leading to chaotic development.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>6. Skill Shortages 👨‍💻</h4>
+                <p><strong>Problem:</strong> Lack of qualified developers and technical expertise.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A company needs AI specialists but can't find qualified candidates, delaying their machine learning project.
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Key Takeaway:</h4>
+                <p>Software crisis shows why we need proper quality engineering - to prevent these disasters from happening!</p>
+            </div>
+        </div>
+        
+        <!-- Cost of Bugs Section -->
+        <div id="cost-bugs" class="content-section">
+            <h2>💰 Cost of Fixing Bugs</h2>
+            
+            <div class="concept-card">
+                <h3>The 10x Rule</h3>
+                <p>The cost to fix a bug increases exponentially (10 times) as the software development progresses through different phases.</p>
+            </div>
+            
+            <h3>Cost Progression:</h3>
+            <div class="cost-chart">
+                <div class="cost-bar cost-bar-spec">
+                    <div style="padding: 5px;">$1</div>
+                    <div style="margin-top: 10px;">Specification</div>
+                </div>
+                <div class="cost-bar cost-bar-design">
+                    <div style="padding: 5px;">$10</div>
+                    <div style="margin-top: 10px;">Design</div>
+                </div>
+                <div class="cost-bar cost-bar-code">
+                    <div style="padding: 5px;">$100</div>
+                    <div style="margin-top: 10px;">Coding</div>
+                </div>
+                <div class="cost-bar cost-bar-release">
+                    <div style="padding: 5px;">$1000</div>
+                    <div style="margin-top: 10px;">Released</div>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Why does cost increase?</h4>
+                <ul>
+                    <li><strong>Specification Phase:</strong> Easy to change on paper</li>
+                    <li><strong>Design Phase:</strong> Some code may need restructuring</li>
+                    <li><strong>Coding Phase:</strong> Requires significant code changes and retesting</li>
+                    <li><strong>Released Software:</strong> Customer impact, emergency fixes, reputation damage</li>
+                </ul>
+            </div>
+            
+            <div class="example-box">
+                <h4>Real Example:</h4>
+                <p><strong>Specification:</strong> "User login should accept email" - easy to document<br>
+                <strong>Design:</strong> Database schema needs modification<br>
+                <strong>Coding:</strong> Rewrite authentication module, update validation<br>
+                <strong>Released:</strong> Emergency patch, user data migration, customer support calls</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Lesson:</h4>
+                <p>Find and fix bugs as early as possible! Prevention is much cheaper than cure.</p>
+            </div>
+        </div>
+        
+        <!-- Quality Concept Section -->
+        <div id="quality-concept" class="content-section">
+            <h2>🎯 Understanding Quality</h2>
+            
+            <div class="concept-card">
+                <h3>What is Quality?</h3>
+                <p>Quality is multifaceted - it means different things in different contexts:</p>
+                <ul>
+                    <li>Based on judgments by individuals or organizations</li>
+                    <li><strong>Fitness for purpose</strong> - does it do what it's supposed to do?</li>
+                    <li>Corresponds to a rating or measure</li>
+                    <li>Based on acceptable performance</li>
+                    <li>Meeting goals and requirements</li>
+                </ul>
+            </div>
+            
+            <h3>Four Views of Software Quality:</h3>
+            
+            <div class="concept-card">
+                <h4>1. Product View 📦</h4>
+                <p>Quality is determined by the internal characteristics of the software itself.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Clean, well-structured code with low complexity and high cohesion.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>2. User View 👤</h4>
+                <p>Quality is about user satisfaction and meeting user needs.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A mobile app that's intuitive, fast, and helps users complete their tasks easily.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>3. Manufacturing View 🏭</h4>
+                <p>Quality is about conformance to specifications and standards.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Software that passes all predefined test cases and meets technical specifications.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>4. Value-Based View 💎</h4>
+                <p>Quality is determined by the value delivered relative to cost.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A simple app that costs $10,000 but generates $100,000 in revenue is high quality from value perspective.
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Software Quality Definition:</h4>
+                <p>"The degree to which a software product meets specified requirements and satisfies the needs or expectations of its users."</p>
+            </div>
+        </div>
+        
+        <!-- Quality Attributes Section -->
+        <div id="quality-attributes" class="content-section">
+            <h2>⭐ Software Quality Attributes</h2>
+            
+            <p>These are the key characteristics that make software "high quality":</p>
+            
+            <div class="quality-attributes">
+                <div class="attribute-card">
+                    <h4>🎯 Functionality</h4>
+                    <p>Does the software perform its intended functions correctly and efficiently?</p>
+                    <small><strong>Example:</strong> A calculator app that performs math operations accurately.</small>
+                </div>
+                
+                <div class="attribute-card">
+                    <h4>🔒 Reliability</h4>
+                    <p>Can the software consistently perform as expected under specific conditions?</p>
+                    <small><strong>Example:</strong> A banking system that processes transactions 99.9% of the time without failure.</small>
+                </div>
+                
+                <div class="attribute-card">
+                    <h4>👥 Usability</h4>
+                    <p>How easily can users interact with and navigate the software?</p>
+                    <small><strong>Example:</strong> An intuitive interface where new users can complete tasks without training.</small>
+                </div>
+                
+                <div class="attribute-card">
+                    <h4>⚡ Efficiency</h4>
+                    <p>How well does the software utilize system resources?</p>
+                    <small><strong>Example:</strong> A video editor that processes 4K videos without consuming excessive memory.</small>
+                </div>
+                
+                <div class="attribute-card">
+                    <h4>🔧 Maintainability</h4>
+                    <p>How easily can the software be modified, updated, or repaired?</p>
+                    <small><strong>Example:</strong> Well-documented code that allows new features to be added quickly.</small>
+                </div>
+                
+                <div class="attribute-card">
+                    <h4>🌐 Portability</h4>
+                    <p>Can the software operate across different environments?</p>
+                    <small><strong>Example:</strong> A web app that works on Windows, Mac, and mobile devices.</small>
+                </div>
+                
+                <div class="attribute-card">
+                    <h4>🛡️ Security</h4>
+                    <p>How well does the software protect against threats?</p>
+                    <small><strong>Example:</strong> An app that encrypts user data and prevents unauthorized access.</small>
+                </div>
+                
+                <div class="attribute-card">
+                    <h4>📈 Scalability</h4>
+                    <p>Can the software handle increasing workload or users?</p>
+                    <small><strong>Example:</strong> A social media platform that supports millions of users simultaneously.</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- QA vs QC Section -->
+        <div id="qa-qc" class="content-section">
+            <h2>🔍 Quality Assurance vs Quality Control</h2>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>Aspect</th>
+                    <th>Quality Assurance (QA)</th>
+                    <th>Quality Control (QC)</th>
+                </tr>
+                <tr>
+                    <td><strong>Focus</strong></td>
+                    <td>Prevention of defects</td>
+                    <td>Detection of defects</td>
+                </tr>
+                <tr>
+                    <td><strong>Approach</strong></td>
+                    <td>Process-oriented</td>
+                    <td>Product-oriented</td>
+                </tr>
+                <tr>
+                    <td><strong>When</strong></td>
+                    <td>Throughout development lifecycle</td>
+                    <td>After development/during testing</td>
+                </tr>
+                <tr>
+                    <td><strong>Goal</strong></td>
+                    <td>Improve development process</td>
+                    <td>Find and fix bugs</td>
+                </tr>
+                <tr>
+                    <td><strong>Activities</strong></td>
+                    <td>Process definition, standards, training</td>
+                    <td>Testing, inspections, reviews</td>
+                </tr>
+            </table>
+            
+            <div class="concept-card">
+                <h3>Quality Assurance (QA)</h3>
+                <p>QA is about demonstrating that your product can satisfy users by preventing problems before they occur.</p>
+                <div class="example-box">
+                    <strong>QA Activities:</strong>
+                    <ul>
+                        <li>Establishing coding standards</li>
+                        <li>Training developers on best practices</li>
+                        <li>Regular code reviews</li>
+                        <li>Process improvement initiatives</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Quality Control (QC)</h3>
+                <p>QC is the implementation of regular testing procedures to detect and fix defects.</p>
+                <div class="example-box">
+                    <strong>QC Activities:</strong>
+                    <ul>
+                        <li>Unit testing</li>
+                        <li>Integration testing</li>
+                        <li>System testing</li>
+                        <li>Bug tracking and fixing</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">Create</div>
+                <div class="process-step">Test</div>
+                <div class="process-step">Get Results</div>
+                <div class="process-step">Refine</div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Remember:</h4>
+                <p>QA prevents bugs, QC finds bugs. Both are essential for high-quality software!</p>
+            </div>
+        </div>
+        
+        <!-- Verification and Validation Section -->
+        <div id="verification-validation" class="content-section">
+            <h2>✅ Verification & Validation (V&V)</h2>
+            
+            <div class="concept-card">
+                <h3>Key Concepts:</h3>
+                <p><strong>SQA:</strong> Set of activities to ensure end product is of desired quality<br>
+                <strong>V&V:</strong> Ensures each phase confirms to requirements<br>
+                <strong>Testing:</strong> Process to detect faults in the end product</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>🔍 Verification: "Are we building the product right?"</h4>
+                <p>Does the software meet the specifications and technical requirements?</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Checking if a login form validates email format correctly as specified in the requirements document.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>✅ Validation: "Are we building the right product?"</h4>
+                <p>Does the software meet actual user needs and solve real problems?</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Testing if users can actually complete their intended tasks easily and efficiently.
+                </div>
+            </div>
+            
+            <h3>V&V Process Objectives:</h3>
+            <div class="concept-card">
+                <h4>1. Discovery of Defects</h4>
+                <p>Find bugs, errors, and issues in the system</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>2. Usability Assessment</h4>
+                <p>Determine if the system is practical and usable in real operations</p>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Detection vs Prevention</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Prevention (QA Focus)</th>
+                        <th>Detection (V&V Focus)</th>
+                    </tr>
+                    <tr>
+                        <td>Establish development environment</td>
+                        <td>Inspections and audits</td>
+                    </tr>
+                    <tr>
+                        <td>Define processes and procedures</td>
+                        <td>Reviews and walkthroughs</td>
+                    </tr>
+                    <tr>
+                        <td>Measure process effectiveness</td>
+                        <td>Unit, integration, system testing</td>
+                    </tr>
+                    <tr>
+                        <td>Continuous improvement</td>
+                        <td>Acceptance testing</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Remember:</h4>
+                <p>V&V must be applied at each stage of the software process as a whole life-cycle activity. The goal is to establish confidence that software is fit for purpose.</p>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Practice Quiz</h2>
+            
+            <div class="quiz-section">
+                <h3>Test Your Understanding:</h3>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q1')">
+                    <strong>Q1: What is the main cause of software crisis?</strong>
+                    <div id="q1" class="answer">
+                        <strong>Answer:</strong> Software crisis results from multiple challenges including complexity, cost overruns, schedule delays, quality issues, inadequate methodologies, and skill shortages in software development.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q2')">
+                    <strong>Q2: If a bug costs $10 to fix in design phase, how much would it cost in released software?</strong>
+                    <div id="q2" class="answer">
+                        <strong>Answer:</strong> $10,000. Following the 10x rule: Design ($10) → Coding ($100) → Released ($1,000). Wait, let me recalculate: if design is $10, then coding is $100, and released is $1,000.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q3')">
+                    <strong>Q3: What's the difference between Verification and Validation?</strong>
+                    <div id="q3" class="answer">
+                        <strong>Answer:</strong> Verification asks "Are we building the product right?" (meets specifications), while Validation asks "Are we building the right product?" (meets user needs).
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q4')">
+                    <strong>Q4: Name three software quality attributes and give examples.</strong>
+                    <div id="q4" class="answer">
+                        <strong>Answer:</strong> Examples: 1) Reliability - banking system works 99.9% of time, 2) Usability - intuitive interface, 3) Security - encrypts user data and prevents unauthorized access.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q5')">
+                    <strong>Q5: What is the main difference between QA and QC?</strong>
+                    <div id="q5" class="answer">
+                        <strong>Answer:</strong> QA (Quality Assurance) focuses on preventing defects through process improvement, while QC (Quality Control) focuses on detecting defects through testing and inspection.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q6')">
+                    <strong>Q6: Why is it important to find bugs early in development?</strong>
+                    <div id="q6" class="answer">
+                        <strong>Answer:</strong> Because the cost of fixing bugs increases exponentially (10x) as development progresses. A bug that costs $1 to fix in specification will cost $1,000 to fix after release.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAnswer(questionId) {
+            const answer = document.getElementById(questionId);
+            answer.classList.toggle('show');
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
