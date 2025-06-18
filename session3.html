@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 3: How to Earn Software Quality</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .example-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .quality-attributes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .attribute-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .attribute-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .process-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .process-step {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px;
+            position: relative;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            color: #667eea;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            background: #e9ecef;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        .mccall-model {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .mccall-column {
+            flex: 1;
+            padding: 15px;
+            margin: 0 5px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mccall-column h4 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .mccall-item {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .quality-attributes {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-step::after {
+                content: '↓';
+                right: 50%;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+            
+            .mccall-model {
+                flex-direction: column;
+            }
+            
+            .mccall-column {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Session 3: How to Earn Software Quality</h1>
+            <p>Software Quality Engineering - University of Kelaniya</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Session Overview</button>
+            <button class="tab-button" onclick="showTab('quality-definition')">What is Quality?</button>
+            <button class="tab-button" onclick="showTab('quality-assurance')">Quality Assurance</button>
+            <button class="tab-button" onclick="showTab('quality-control')">Quality Control</button>
+            <button class="tab-button" onclick="showTab('mccall-model')">McCall's Model</button>
+            <button class="tab-button" onclick="showTab('testing-types')">Testing Types</button>
+            <button class="tab-button" onclick="showTab('error-handling')">Dealing with Errors</button>
+            <button class="tab-button" onclick="showTab('quiz')">Practice Quiz</button>
+        </div>
+        
+        <!-- Session Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2>📋 Session Overview</h2>
+            
+            <div class="concept-card">
+                <h3>What We'll Cover Today</h3>
+                <ul>
+                    <li>Software Quality - revision from last week</li>
+                    <li>Software Quality Assurance</li>
+                    <li>Quality standards (McCall's Factor Model)</li>
+                    <li>Software Testing approaches</li>
+                    <li>Dealing with errors and faults</li>
+                </ul>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">Requirements</div>
+                <div class="process-step">SQA</div>
+                <div class="process-step">Design</div>
+                <div class="process-step">Coding</div>
+                <div class="process-step">Testing</div>
+                <div class="process-step">Maintenance</div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Key Concept:</h4>
+                <p>Quality must be built into the software development process at every stage, not just tested at the end.</p>
+            </div>
+        </div>
+        
+        <!-- What is Quality Section -->
+        <div id="quality-definition" class="content-section">
+            <h2>🎯 What is Quality?</h2>
+            
+            <div class="concept-card">
+                <h3>Defining Quality</h3>
+                <p>Quality is multifaceted and can be defined in several ways:</p>
+                <ul>
+                    <li>Based on judgments by an individual or organization</li>
+                    <li>Fitness for purpose</li>
+                    <li>Corresponds to a rating</li>
+                    <li>Based on acceptable performance</li>
+                    <li>Meeting goals/requirements</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Quality in Software</h3>
+                <p><strong>Quality</strong> is the ability of your product to satisfy your users.</p>
+                <p>Without <em>quality</em>, you may have little to offer.</p>
+                <p>Quality helps to future-proof projects.</p>
+            </div>
+            
+            <div class="example-box">
+                <h4>Example: Quality in Different Contexts</h4>
+                <p><strong>Banking Software:</strong> Quality means accuracy, security, and reliability in financial transactions.</p>
+                <p><strong>Mobile Game:</strong> Quality means engaging gameplay, smooth performance, and intuitive controls.</p>
+                <p><strong>Medical System:</strong> Quality means precision, data integrity, and regulatory compliance.</p>
+            </div>
+        </div>
+        
+        <!-- Quality Assurance Section -->
+        <div id="quality-assurance" class="content-section">
+            <h2>🛡️ Quality Assurance</h2>
+            
+            <div class="concept-card">
+                <h3>What is Quality Assurance?</h3>
+                <p><strong>Quality Assurance</strong> is the process that demonstrates your product is able to satisfy your users.</p>
+                <p>When good quality assurance is implemented there should be:</p>
+                <ul>
+                    <li>Improvements in usability and performance</li>
+                    <li>Reduction in defect rates</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Key Aspects of QA</h4>
+                <p><em>Quality Assurance</em> needs documented standards and best practices to be meaningful.</p>
+                <p><em>Quality</em> & <em>Best Practice</em> can be considered in terms of being <em>Fit for Purpose</em>.</p>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">Establish Environment</div>
+                <div class="process-step">Define Processes</div>
+                <div class="process-step">Measure Effectiveness</div>
+                <div class="process-step">Continuous Improvement</div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Remember:</h4>
+                <p>QA focuses on prevention rather than detection. It's about creating systems that make it hard to introduce defects in the first place.</p>
+            </div>
+        </div>
+        
+        <!-- Quality Control Section -->
+        <div id="quality-control" class="content-section">
+            <h2>🔍 Quality Control</h2>
+            
+            <div class="concept-card">
+                <h3>What is Quality Control?</h3>
+                <p><strong>Quality Control (QC)</strong> is the implementation of regular testing procedures against your definitions of quality and more specifically the refinement of these procedures.</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>QC Characteristics</h4>
+                <ul>
+                    <li>Formal use of testing</li>
+                    <li>Acting on the results of your tests</li>
+                    <li>Requires planning, structured tests, good documentation</li>
+                    <li>Relates to output - Quality Circle</li>
+                    <li>Standards compliance</li>
+                </ul>
+            </div>
+            
+            <div class="comparison-table">
+                <tr>
+                    <th>Aspect</th>
+                    <th>Quality Assurance (QA)</th>
+                    <th>Quality Control (QC)</th>
+                </tr>
+                <tr>
+                    <td><strong>Focus</strong></td>
+                    <td>Prevention of defects</td>
+                    <td>Detection of defects</td>
+                </tr>
+                <tr>
+                    <td><strong>Approach</strong></td>
+                    <td>Process-oriented</td>
+                    <td>Product-oriented</td>
+                </tr>
+                <tr>
+                    <td><strong>Activities</strong></td>
+                    <td>Process definition, standards, training</td>
+                    <td>Testing, inspections, reviews</td>
+                </tr>
+            </div>
+            
+            <div class="example-box">
+                <h4>Real-world Example</h4>
+                <p><strong>QA:</strong> Implementing coding standards, conducting training sessions, setting up code review processes.</p>
+                <p><strong>QC:</strong> Executing unit tests, performing integration testing, conducting user acceptance testing.</p>
+            </div>
+        </div>
+        
+        <!-- McCall's Model Section -->
+        <div id="mccall-model" class="content-section">
+            <h2>🌳 McCall's Factor Model</h2>
+            
+            <div class="concept-card">
+                <h3>About McCall's Model</h3>
+                <p>A quality factor represents a behavioral characteristic of the system.</p>
+                <p>A quality criterion is an attribute of a quality factor that is related to software production and design.</p>
+                <p>A quality metric is a measure that captures some aspect of a quality criterion.</p>
+            </div>
+            
+            <div class="mccall-model">
+                <div class="mccall-column">
+                    <h4>Product Operation</h4>
+                    <div class="mccall-item">Correctness</div>
+                    <div class="mccall-item">Reliability</div>
+                    <div class="mccall-item">Efficiency</div>
+                    <div class="mccall-item">Integrity</div>
+                    <div class="mccall-item">Usability</div>
+                </div>
+                
+                <div class="mccall-column">
+                    <h4>Product Revision</h4>
+                    <div class="mccall-item">Maintainability</div>
+                    <div class="mccall-item">Flexibility</div>
+                    <div class="mccall-item">Testability</div>
+                </div>
+                
+                <div class="mccall-column">
+                    <h4>Product Transition</h4>
+                    <div class="mccall-item">Portability</div>
+                    <div class="mccall-item">Reusability</div>
+                    <div class="mccall-item">Interoperability</div>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Historical Note:</h4>
+                <p>McCall's model was developed in 1977 by J.A. McCall, P.K. Richards, and G.F. Walters in their work "Factors in Software Quality". It remains influential in software quality assessment today.</p>
+            </div>
+        </div>
+        
+        <!-- Testing Types Section -->
+        <div id="testing-types" class="content-section">
+            <h2>🧪 Types of Testing</h2>
+            
+            <div class="concept-card">
+                <h3>Based on SDLC Stages</h3>
+                <ul>
+                    <li><strong>Unit Testing:</strong> Individual components</li>
+                    <li><strong>Integration Testing:</strong> Groups of components</li>
+                    <li><strong>System Testing:</strong> Entire system</li>
+                    <li><strong>Acceptance Testing:</strong> By client/users</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Based on Testing Approach</h3>
+                <ul>
+                    <li><strong>Static Testing:</strong>
+                        <ul>
+                            <li>Hand execution: Reading the source code</li>
+                            <li>Walk-Throughs</li>
+                            <li>Code Inspections</li>
+                            <li>Automated Tools checking</li>
+                        </ul>
+                    </li>
+                    <li><strong>Dynamic Testing:</strong>
+                        <ul>
+                            <li>Black-box testing (input/output behavior)</li>
+                            <li>White-box testing (internal logic)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Acceptance Test Driven Development (ATDD)</h3>
+                <p>ATDD is an agile system development approach that serves as a communication process between the customer, developer & tester.</p>
+                <p>It validates 'Building the Right Code' through executable specifications that are meaningful to business, developers & testers.</p>
+            </div>
+            
+            <div class="example-box">
+                <h4>Why We Need ATDD - The Elephant Story</h4>
+                <p><strong>Customer Requirements:</strong></p>
+                <ol>
+                    <li>Have one trunk</li>
+                    <li>Have four legs</li>
+                    <li>Should carry load both passenger & cargo</li>
+                    <li>Black in color</li>
+                    <li>Should be herbivorous</li>
+                </ol>
+                <p><strong>Our Solution:</strong> A black cow that meets all requirements and also gives milk!</p>
+                <p>This illustrates how misunderstandings can lead to incorrect solutions without proper acceptance criteria.</p>
+            </div>
+        </div>
+        
+        <!-- Dealing with Errors Section -->
+        <div id="error-handling" class="content-section">
+            <h2>⚠️ Dealing with Errors and Faults</h2>
+            
+            <div class="concept-card">
+                <h3>What is an Error?</h3>
+                <p>An <strong>erroneous state</strong> ("error") occurs when something goes wrong in the system.</p>
+                <p>Before we can identify an error, we need to specify the desired behavior first!</p>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Types of Faults</h3>
+                <ul>
+                    <li><strong>Algorithmic Fault:</strong> Errors in the logic or processing</li>
+                    <li><strong>Mechanical Fault:</strong> Hardware or physical failures</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Approaches to Deal with Errors</h3>
+                <ul>
+                    <li><strong>Verification:</strong>
+                        <ul>
+                            <li>Assumes environment and checks with specification</li>
+                            <li>May omit important constraints</li>
+                        </ul>
+                    </li>
+                    <li><strong>Modular redundancy:</strong> Expensive but reliable</li>
+                    <li><strong>Declaring a bug as a "feature":</strong> Bad practice</li>
+                    <li><strong>Patching:</strong> Can slow down performance</li>
+                    <li><strong>Testing:</strong> Never good enough alone</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Comprehensive Error Management</h3>
+                <ol>
+                    <li><strong>Error prevention</strong> (before release):
+                        <ul>
+                            <li>Good programming methodology</li>
+                            <li>Version control</li>
+                            <li>Verification</li>
+                        </ul>
+                    </li>
+                    <li><strong>Error detection</strong> (while running):
+                        <ul>
+                            <li>Testing</li>
+                            <li>Debugging</li>
+                            <li>Monitoring</li>
+                        </ul>
+                    </li>
+                    <li><strong>Error recovery</strong> (after failure):
+                        <ul>
+                            <li>Atomic transactions</li>
+                            <li>Modular redundancy</li>
+                            <li>Recovery blocks</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Key Observations:</h4>
+                <ul>
+                    <li>It is impossible to completely test any module or any system</li>
+                    <li>Testing can only show the presence of bugs, not their absence (Dijkstra)</li>
+                    <li>Testing requires creativity and independent perspective</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Essential Skills for Software Testers</h3>
+                <div class="quality-attributes">
+                    <div class="attribute-card">
+                        <h4>Can-do attitude</h4>
+                        <p>Willingness to tackle complex problems</p>
+                    </div>
+                    <div class="attribute-card">
+                        <h4>Attention to detail</h4>
+                        <p>Spotting subtle issues others might miss</p>
+                    </div>
+                    <div class="attribute-card">
+                        <h4>Learning ability</h4>
+                        <p>Ability to learn, unlearn and relearn</p>
+                    </div>
+                    <div class="attribute-card">
+                        <h4>Analytical skills</h4>
+                        <p>Breaking down complex systems</p>
+                    </div>
+                    <div class="attribute-card">
+                        <h4>Pattern recognition</h4>
+                        <p>Ability to relate things and see patterns</p>
+                    </div>
+                    <div class="attribute-card">
+                        <h4>Engineering skills</h4>
+                        <p>Technical understanding of systems</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Practice Quiz</h2>
+            
+            <div class="quiz-section">
+                <h3>Test Your Understanding:</h3>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q1')">
+                    <strong>Q1: What is the main difference between Quality Assurance and Quality Control?</strong>
+                    <div id="q1" class="answer">
+                        <strong>Answer:</strong> QA focuses on preventing defects through process improvement (process-oriented), while QC focuses on detecting defects through testing and inspection (product-oriented).
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q2')">
+                    <strong>Q2: Name three categories in McCall's Factor Model and give one example from each.</strong>
+                    <div id="q2" class="answer">
+                        <strong>Answer:</strong> 
+                        <ul>
+                            <li><strong>Product Operation:</strong> Reliability (system works consistently)</li>
+                            <li><strong>Product Revision:</strong> Maintainability (easy to modify)</li>
+                            <li><strong>Product Transition:</strong> Portability (works across environments)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q3')">
+                    <strong>Q3: What are the three main approaches to dealing with errors in software systems?</strong>
+                    <div id="q3" class="answer">
+                        <strong>Answer:</strong> 
+                        <ol>
+                            <li>Error prevention (before release)</li>
+                            <li>Error detection (while running)</li>
+                            <li>Error recovery (after failure)</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q4')">
+                    <strong>Q4: Why is Acceptance Test Driven Development (ATDD) important?</strong>
+                    <div id="q4" class="answer">
+                        <strong>Answer:</strong> ATDD helps prevent misunderstandings between customers, developers and testers by creating executable specifications that serve as common ground. It validates that we're "building the right code" by focusing on user needs from the beginning.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q5')">
+                    <strong>Q5: What makes testing a creative activity rather than just a mechanical process?</strong>
+                    <div id="q5" class="answer">
+                        <strong>Answer:</strong> Testing requires understanding the system deeply, knowing various testing techniques, and skillfully applying them. Effective testers need to think beyond obvious scenarios, anticipate edge cases, and design tests that reveal hidden problems. It's about asking "how could this break?" rather than just "does this work?"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAnswer(questionId) {
+            const answer = document.getElementById(questionId);
+            answer.classList.toggle('show');
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
