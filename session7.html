@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Principles and Techniques</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .example-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .principle-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            background: #e9ecef;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        .banking-example {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .test-level {
+            background: #e1f5fe;
+            border-left: 4px solid #0288d1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .technique-card {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .process-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .process-step {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px;
+            position: relative;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            color: #667eea;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-step::after {
+                content: '↓';
+                right: 50%;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Testing Principles and Techniques</h1>
+            <p>Comprehensive Guide to Effective Software Testing</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('principles')">Testing Principles</button>
+            <button class="tab-button" onclick="showTab('test-types')">Test Types</button>
+            <button class="tab-button" onclick="showTab('techniques')">Test Techniques</button>
+            <button class="tab-button" onclick="showTab('process')">Test Process</button>
+            <button class="tab-button" onclick="showTab('psychology')">Psychology of Testing</button>
+            <button class="tab-button" onclick="showTab('estimation')">Test Estimation</button>
+            <button class="tab-button" onclick="showTab('quiz')">Practice Quiz</button>
+        </div>
+        
+        <!-- Testing Principles Section -->
+        <div id="principles" class="content-section active">
+            <h2>🧭 Seven Fundamental Testing Principles</h2>
+            
+            <div class="concept-card">
+                <h3>Why Testing Principles Matter</h3>
+                <p>These principles form the foundation of effective software testing and guide testers in making decisions about test planning, design, and execution.</p>
+            </div>
+            
+            <div class="principle-box">
+                <h4>1. Exhaustive Testing is Impossible</h4>
+                <p>It's impractical to test all combinations of inputs and preconditions.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A login form with username (any 8-char string) and password (any 8-char string) has 26^8 × 26^8 = 208,827,064,576 possible combinations. Testing all would take centuries!
+                    <p><strong>Solution:</strong> Use equivalence partitioning and boundary value analysis to select representative test cases.</p>
+                </div>
+            </div>
+            
+            <div class="principle-box">
+                <h4>2. Defect Clustering</h4>
+                <p>A small number of modules usually contain most of the defects.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> In a banking app, 80% of bugs might be found in the interest calculation module (20% of code).
+                    <p><strong>Solution:</strong> Focus testing on complex or frequently changed modules.</p>
+                </div>
+            </div>
+            
+            <div class="principle-box">
+                <h4>3. Pesticide Paradox</h4>
+                <p>Repeating the same tests will stop finding new bugs.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> If you always test a form with the same values, you'll miss bugs that only appear with unusual inputs.
+                    <p><strong>Solution:</strong> Regularly review and update test cases. Use exploratory testing.</p>
+                </div>
+            </div>
+            
+            <div class="principle-box">
+                <h4>4. Testing Shows Presence of Defects</h4>
+                <p>Testing can prove defects exist, but cannot prove there are no defects.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> You find 50 bugs in testing, but there might still be 50 more undiscovered.
+                    <p><strong>Solution:</strong> Use risk analysis to determine when testing is "good enough."</p>
+                </div>
+            </div>
+            
+            <div class="principle-box">
+                <h4>5. Absence of Errors - Fallacy</h4>
+                <p>Finding and fixing defects doesn't help if the system is unusable.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> A bug-free accounting system that doesn't meet user needs is worthless.
+                    <p><strong>Solution:</strong> Ensure testing validates requirements and user needs, not just technical correctness.</p>
+                </div>
+            </div>
+            
+            <div class="principle-box">
+                <h4>6. Early Testing</h4>
+                <p>Testing should start as early as possible in the SDLC.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Finding requirements ambiguities during review prevents costly rework later.
+                    <p><strong>Solution:</strong> Implement shift-left testing with requirements and design reviews.</p>
+                </div>
+            </div>
+            
+            <div class="principle-box">
+                <h4>7. Testing is Context Dependent</h4>
+                <p>Testing approaches differ based on the project context.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Medical device software requires more rigorous testing than a simple mobile game.
+                    <p><strong>Solution:</strong> Adapt testing strategy based on risk, domain, and project constraints.</p>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Practical Application:</h4>
+                <p>These principles aren't just theoretical - they directly impact how we:</p>
+                <ul>
+                    <li>Prioritize test cases (focus on high-risk areas)</li>
+                    <li>Allocate testing resources (defect clustering)</li>
+                    <li>Determine when to stop testing (exhaustive testing impossible)</li>
+                    <li>Communicate test results (testing shows presence of defects)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Test Types Section -->
+        <div id="test-types" class="content-section">
+            <h2>🔍 Test Types and Quality Characteristics</h2>
+            
+            <div class="concept-card">
+                <h3>What are Test Types?</h3>
+                <p>Groups of test activities aimed at testing specific characteristics of a software system based on specific objectives.</p>
+            </div>
+            
+            <h3>Four Main Test Types:</h3>
+            
+            <div class="concept-card">
+                <h4>1. Functional Testing</h4>
+                <p>Evaluates functional quality characteristics like completeness, correctness, and appropriateness.</p>
+                <div class="example-box">
+                    <strong>Examples:</strong>
+                    <ul>
+                        <li>Does the login function authenticate users correctly?</li>
+                        <li>Does the shopping cart calculate totals accurately?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>2. Non-Functional Testing</h4>
+                <p>Evaluates characteristics like reliability, performance, security, and usability.</p>
+                <div class="example-box">
+                    <strong>Examples:</strong>
+                    <ul>
+                        <li>Can the system handle 1000 concurrent users?</li>
+                        <li>Is sensitive data properly encrypted?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>3. Structural Testing</h4>
+                <p>Evaluates the architecture and implementation of the system.</p>
+                <div class="example-box">
+                    <strong>Examples:</strong>
+                    <ul>
+                        <li>Is all code exercised by tests? (code coverage)</li>
+                        <li>Are database connections properly closed?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>4. Change-Related Testing</h4>
+                <p>Evaluates effects of changes through confirmation and regression testing.</p>
+                <div class="example-box">
+                    <strong>Examples:</strong>
+                    <ul>
+                        <li>Does the bug fix resolve the reported issue?</li>
+                        <li>Did the new feature break existing functionality?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Banking Application Examples Across Test Levels:</h3>
+            
+            <div class="banking-example">
+                <h4>Functional Testing Example</h4>
+                
+                <div class="test-level">
+                    <h5>Component Testing</h5>
+                    <p>Test interest calculation component with various principal amounts, rates, and time periods.</p>
+                </div>
+                
+                <div class="test-level">
+                    <h5>System Testing</h5>
+                    <p>Test end-to-end credit application workflow from customer submission to approval.</p>
+                </div>
+                
+                <div class="test-level">
+                    <h5>Acceptance Testing</h5>
+                    <p>Verify bankers can properly approve/decline applications based on policy rules.</p>
+                </div>
+            </div>
+            
+            <div class="banking-example">
+                <h4>Non-Functional Testing Example</h4>
+                
+                <div class="test-level">
+                    <h5>Component Testing</h5>
+                    <p>Measure CPU usage during complex interest calculations.</p>
+                </div>
+                
+                <div class="test-level">
+                    <h5>System Testing</h5>
+                    <p>Verify UI works on all supported browsers and devices.</p>
+                </div>
+                
+                <div class="test-level">
+                    <h5>Acceptance Testing</h5>
+                    <p>Evaluate interface accessibility for users with disabilities.</p>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Key Quality Characteristics:</h4>
+                <ul>
+                    <li><strong>Usability:</strong> How easy is the system to use?</li>
+                    <li><strong>Reliability:</strong> Does it perform consistently?</li>
+                    <li><strong>Security:</strong> Is data protected?</li>
+                    <li><strong>Efficiency:</strong> Does it use resources well?</li>
+                    <li><strong>Maintainability:</strong> Is it easy to modify?</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Test Techniques Section -->
+        <div id="techniques" class="content-section">
+            <h2>🛠️ Categories of Test Techniques</h2>
+            
+            <div class="concept-card">
+                <h3>Three Main Approaches to Testing</h3>
+                <p>Different techniques are used based on what information is available and what aspects need testing.</p>
+            </div>
+            
+            <div class="technique-card">
+                <h4>1. Black-Box Techniques</h4>
+                <p>Test the system without knowledge of internal implementation.</p>
+                <div class="example-box">
+                    <strong>Characteristics:</strong>
+                    <ul>
+                        <li>Based on requirements and specifications</li>
+                        <li>Tests functionality from user perspective</li>
+                        <li>Examples: Equivalence partitioning, boundary value analysis, decision tables</li>
+                    </ul>
+                    <strong>Example:</strong> Testing a login screen by trying valid/invalid credentials without knowing how authentication is implemented.
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <h4>2. White-Box Techniques</h4>
+                <p>Test internal structures and implementation.</p>
+                <div class="example-box">
+                    <strong>Characteristics:</strong>
+                    <ul>
+                        <li>Requires knowledge of code/internal design</li>
+                        <li>Tests paths, conditions, and data flows</li>
+                        <li>Examples: Statement coverage, branch coverage, path testing</li>
+                    </ul>
+                    <strong>Example:</strong> Ensuring all branches in a complex interest calculation function are executed during testing.
+                </div>
+            </div>
+            
+            <div class="technique-card">
+                <h4>3. Experience-Based Techniques</h4>
+                <p>Leverage tester knowledge and intuition.</p>
+                <div class="example-box">
+                    <strong>Characteristics:</strong>
+                    <ul>
+                        <li>Based on tester expertise and domain knowledge</li>
+                        <li>Often used to complement other techniques</li>
+                        <li>Examples: Error guessing, exploratory testing, checklist-based testing</li>
+                    </ul>
+                    <strong>Example:</strong> A tester familiar with banking systems knows to test for rounding errors in financial calculations.
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Technique Selection Factors:</h4>
+                <ul>
+                    <li>System complexity and risk level</li>
+                    <li>Available documentation and specifications</li>
+                    <li>Tester knowledge and skills</li>
+                    <li>Testing objectives and constraints</li>
+                    <li>SDLC model being used</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Test Process Section -->
+        <div id="process" class="content-section">
+            <h2>📋 Test Process: Activities and Tasks</h2>
+            
+            <div class="concept-card">
+                <h3>The Testing Lifecycle</h3>
+                <p>A structured approach to testing ensures comprehensive coverage and efficient use of resources.</p>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">Test Planning</div>
+                <div class="process-step">Test Monitoring</div>
+                <div class="process-step">Test Analysis</div>
+                <div class="process-step">Test Design</div>
+                <div class="process-step">Test Implementation</div>
+                <div class="process-step">Test Execution</div>
+                <div class="process-step">Test Completion</div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>1. Test Planning</h4>
+                <p>Define objectives, approach, resources, and schedule.</p>
+                <div class="example-box">
+                    <strong>Activities:</strong>
+                    <ul>
+                        <li>Determine test scope and strategy</li>
+                        <li>Identify required resources</li>
+                        <li>Define entry and exit criteria</li>
+                        <li>Create test plan document</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>2. Test Monitoring and Control</h4>
+                <p>Track progress and make adjustments as needed.</p>
+                <div class="example-box">
+                    <strong>Activities:</strong>
+                    <ul>
+                        <li>Compare actual progress to plan</li>
+                        <li>Report test status</li>
+                        <li>Adjust test activities based on results</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>3. Test Analysis</h4>
+                <p>Determine "what to test" by identifying test conditions.</p>
+                <div class="example-box">
+                    <strong>Activities:</strong>
+                    <ul>
+                        <li>Review test basis (requirements, etc.)</li>
+                        <li>Identify testable features</li>
+                        <li>Define test conditions (things to verify)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>4. Test Design</h4>
+                <p>Determine "how to test" by creating test cases.</p>
+                <div class="example-box">
+                    <strong>Activities:</strong>
+                    <ul>
+                        <li>Design high-level test cases</li>
+                        <li>Identify test data requirements</li>
+                        <li>Define test preconditions</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>5. Test Implementation</h4>
+                <p>Prepare for test execution.</p>
+                <div class="example-box">
+                    <strong>Activities:</strong>
+                    <ul>
+                        <li>Develop and prioritize test cases</li>
+                        <li>Create test data and scripts</li>
+                        <li>Set up test environment</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>6. Test Execution</h4>
+                <p>Run tests and report results.</p>
+                <div class="example-box">
+                    <strong>Activities:</strong>
+                    <ul>
+                        <li>Execute tests according to plan</li>
+                        <li>Compare actual vs expected results</li>
+                        <li>Report defects</li>
+                        <li>Log test results</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>7. Test Completion</h4>
+                <p>Wrap up testing activities.</p>
+                <div class="example-box">
+                    <strong>Activities:</strong>
+                    <ul>
+                        <li>Evaluate exit criteria</li>
+                        <li>Create test summary report</li>
+                        <li>Archive test assets</li>
+                        <li>Identify lessons learned</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Process Adaptation:</h4>
+                <p>The test process should be adapted based on:</p>
+                <ul>
+                    <li>Project context and constraints</li>
+                    <li>Software development lifecycle model</li>
+                    <li>Product and project risks</li>
+                    <li>Available resources</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Psychology of Testing Section -->
+        <div id="psychology" class="content-section">
+            <h2>🧠 Psychology of Testing</h2>
+            
+            <div class="concept-card">
+                <h3>The Human Element in Testing</h3>
+                <p>Effective testing requires understanding human psychology and fostering positive relationships between testers and other team members.</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Common Psychological Challenges</h4>
+                <ul>
+                    <li><strong>Testing as Criticism:</strong> Developers may perceive bug reports as personal criticism</li>
+                    <li><strong>Quality Ownership:</strong> The "throw it over the wall" mentality between dev and test</li>
+                    <li><strong>Defensive Reactions:</strong> Resistance to reported defects</li>
+                    <li><strong>Priority Conflicts:</strong> Business vs quality priorities</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Strategies for Positive Testing Culture</h4>
+                <div class="example-box">
+                    <strong>1. Collaborative Approach:</strong>
+                    <ul>
+                        <li>Frame testing as a team effort toward quality</li>
+                        <li>Use "we" language instead of "you" when discussing issues</li>
+                        <li>Involve developers in test planning</li>
+                    </ul>
+                    
+                    <strong>2. Constructive Communication:</strong>
+                    <ul>
+                        <li>Report defects factually without blame</li>
+                        <li>Focus on the problem, not the person</li>
+                        <li>Provide clear reproduction steps</li>
+                    </ul>
+                    
+                    <strong>3. Emphasize Benefits:</strong>
+                    <ul>
+                        <li>Highlight how testing saves time/money in long run</li>
+                        <li>Show how defects improve product quality</li>
+                        <li>Celebrate quality improvements</li>
+                    </ul>
+                    
+                    <strong>4. Understand Perspectives:</strong>
+                    <ul>
+                        <li>Recognize developer pride in their work</li>
+                        <li>Acknowledge business pressures</li>
+                        <li>Find win-win solutions</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Effective Defect Reporting</h4>
+                <div class="example-box">
+                    <strong>Do:</strong>
+                    <ul>
+                        <li>Provide clear, concise steps to reproduce</li>
+                        <li>Include screenshots or logs when helpful</li>
+                        <li>State expected vs actual behavior</li>
+                        <li>Suggest severity/priority (but be open to discussion)</li>
+                    </ul>
+                    
+                    <strong>Don't:</strong>
+                    <ul>
+                        <li>Use emotional or accusatory language</li>
+                        <li>Assume developer's intentions</li>
+                        <li>Report duplicates without checking</li>
+                        <li>Ignore the business context</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Building Quality Culture:</h4>
+                <p>Quality is everyone's responsibility. Foster an environment where:</p>
+                <ul>
+                    <li>Defects are seen as opportunities to improve</li>
+                    <li>Testers are valued as quality advocates</li>
+                    <li>Developers welcome feedback</li>
+                    <li>Business stakeholders understand quality tradeoffs</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Test Estimation Section -->
+        <div id="estimation" class="content-section">
+            <h2>⏱️ Test Estimation Techniques</h2>
+            
+            <div class="concept-card">
+                <h3>Estimating Testing Effort</h3>
+                <p>Accurate test estimation helps with resource planning and project scheduling.</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>1. Metrics-Based Technique</h4>
+                <p>Use historical data from similar projects to estimate current effort.</p>
+                <div class="example-box">
+                    <strong>Approaches:</strong>
+                    <ul>
+                        <li><strong>Test Case Count:</strong> Average time per test case × number of test cases</li>
+                        <li><strong>Defect Density:</strong> Expected defects × average time to find/fix</li>
+                        <li><strong>Burndown Charts:</strong> Track remaining work over time</li>
+                    </ul>
+                    <strong>Example:</strong> If previous project had 500 test cases taking 200 hours, and current project has 750 test cases, estimate 300 hours (750/500 × 200).
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>2. Expert-Based Technique</h4>
+                <p>Rely on experience of testing experts to estimate effort.</p>
+                <div class="example-box">
+                    <strong>Approaches:</strong>
+                    <ul>
+                        <li><strong>Delphi Technique:</strong> Multiple experts provide estimates anonymously, then discuss</li>
+                        <li><strong>Work Breakdown:</strong> Decompose testing into tasks and estimate each</li>
+                        <li><strong>Analogous Estimating:</strong> Compare to similar past projects</li>
+                    </ul>
+                    <strong>Example:</strong> Senior tester estimates 3 weeks for API testing based on similar project last year.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Factors Affecting Test Estimation</h4>
+                <div class="example-box">
+                    <ul>
+                        <li><strong>Product Characteristics:</strong> Complexity, quality requirements</li>
+                        <li><strong>Development Process:</strong> Agile vs waterfall, documentation quality</li>
+                        <li><strong>Test Team:</strong> Experience, skills, availability</li>
+                        <li><strong>Test Environment:</strong> Availability, stability</li>
+                        <li><strong>Tools:</strong> Automation level, reporting needs</li>
+                        <li><strong>Risks:</strong> High-risk areas needing more testing</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Estimation Best Practices:</h4>
+                <ul>
+                    <li>Use multiple techniques and compare results</li>
+                    <li>Include buffer time for unexpected issues</li>
+                    <li>Re-estimate regularly as project evolves</li>
+                    <li>Track actuals vs estimates to improve future accuracy</li>
+                    <li>Document assumptions behind estimates</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Practice Quiz</h2>
+            
+            <div class="quiz-section">
+                <h3>Test Your Understanding:</h3>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q1')">
+                    <strong>Q1: Which testing principle explains why we should regularly update our test cases?</strong>
+                    <div id="q1" class="answer">
+                        <strong>Answer:</strong> The Pesticide Paradox principle states that repeating the same tests will stop finding new bugs, so we need to regularly review and update our test cases.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q2')">
+                    <strong>Q2: What's the difference between functional and non-functional testing?</strong>
+                    <div id="q2" class="answer">
+                        <strong>Answer:</strong> Functional testing verifies what the system does (features and functions), while non-functional testing evaluates how the system performs (characteristics like performance, security, usability).
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q3')">
+                    <strong>Q3: Name three strategies for effective defect communication.</strong>
+                    <div id="q3" class="answer">
+                        <strong>Answer:</strong> Any three of:
+                        <ul>
+                            <li>Report defects factually without blame</li>
+                            <li>Provide clear reproduction steps</li>
+                            <li>Focus on the problem, not the person</li>
+                            <li>Use collaborative "we" language</li>
+                            <li>Include expected vs actual behavior</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q4')">
+                    <strong>Q4: What are the main advantages of metrics-based test estimation?</strong>
+                    <div id="q4" class="answer">
+                        <strong>Answer:</strong> Advantages include:
+                        <ul>
+                            <li>Based on historical data (more objective)</li>
+                            <li>Can be more accurate for similar projects</li>
+                            <li>Provides quantitative basis for estimates</li>
+                            <li>Easier to justify to stakeholders</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q5')">
+                    <strong>Q5: Match these test activities to their correct phase in the test process:</strong>
+                    <p>a) Create test summary report<br>
+                       b) Design high-level test cases<br>
+                       c) Determine test scope and strategy<br>
+                       d) Compare actual vs expected results</p>
+                    <div id="q5" class="answer">
+                        <strong>Answer:</strong>
+                        <ul>
+                            <li>a) Test Completion</li>
+                            <li>b) Test Design</li>
+                            <li>c) Test Planning</li>
+                            <li>d) Test Execution</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q6')">
+                    <strong>Q6: Why is early testing important, and what activities can be done early in the SDLC?</strong>
+                    <div id="q6" class="answer">
+                        <strong>Answer:</strong> Early testing is important because defects found earlier are cheaper to fix. Early activities include:
+                        <ul>
+                            <li>Requirements reviews</li>
+                            <li>Design document analysis</li>
+                            <li>Test planning</li>
+                            <li>Early prototype testing</li>
+                            <li>Static code analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAnswer(questionId) {
+            const answer = document.getElementById(questionId);
+            answer.classList.toggle('show');
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
