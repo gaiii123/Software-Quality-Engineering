@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 5: White Box Testing - Control Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .example-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .flow-chart {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .flow-node {
+            width: 120px;
+            height: 60px;
+            background: #4caf50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            margin: 10px;
+            position: relative;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .flow-node.decision {
+            background: #ff9800;
+            width: 80px;
+            height: 80px;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+        
+        .flow-node.start-end {
+            background: #f44336;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .flow-arrow {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .flow-arrow.right {
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .flow-arrow.down {
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%) rotate(90deg);
+        }
+        
+        .coverage-metrics {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .metric-card {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .metric-card h3 {
+            margin-bottom: 10px;
+            border-bottom: 1px solid white;
+            padding-bottom: 5px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            background: #e9ecef;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        .path-example {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .path-step {
+            background: #9c27b0;
+            color: white;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 20px;
+            position: relative;
+        }
+        
+        .path-step::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+        }
+        
+        .path-step:last-child::after {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .flow-chart {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .flow-arrow.right {
+                right: 50%;
+                top: auto;
+                bottom: -15px;
+                transform: translateX(50%) rotate(90deg);
+            }
+            
+            .flow-arrow.down {
+                display: none;
+            }
+            
+            .coverage-metrics {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Session 5: White Box Testing - Control Flow</h1>
+            <p>Testing Internal Structures and Code Paths</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('control-flow')">Control Flow</button>
+            <button class="tab-button" onclick="showTab('coverage')">Coverage Metrics</button>
+            <button class="tab-button" onclick="showTab('path-testing')">Path Testing</button>
+            <button class="tab-button" onclick="showTab('cyclomatic')">Cyclomatic Complexity</button>
+            <button class="tab-button" onclick="showTab('quiz')">Practice Quiz</button>
+        </div>
+        
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2>🔍 White Box Testing Overview</h2>
+            
+            <div class="concept-card">
+                <h3>What is White Box Testing?</h3>
+                <p>White Box Testing (also called structural, glass box, or clear box testing) is a method that examines the <strong>internal structures and workings</strong> of an application rather than its functionality.</p>
+                
+                <div class="example-box">
+                    <p><strong>Analogy:</strong> Like a mechanic looking inside a car's engine to understand how it works, rather than just testing if it drives properly.</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Key Characteristics</h3>
+                <ul>
+                    <li><strong>Internal Knowledge:</strong> Requires understanding of the code implementation</li>
+                    <li><strong>Code Path Focus:</strong> Examines execution paths through the code</li>
+                    <li><strong>Developer-Centric:</strong> Often performed by developers</li>
+                    <li><strong>Early Testing:</strong> Can be done before UI is available</li>
+                    <li><strong>Thorough:</strong> Can achieve high coverage of code paths</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>White Box vs Black Box Testing</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Aspect</th>
+                        <th>White Box Testing</th>
+                        <th>Black Box Testing</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Knowledge</strong></td>
+                        <td>Requires internal code knowledge</td>
+                        <td>No internal knowledge needed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Focus</strong></td>
+                        <td>Code paths, logic, structures</td>
+                        <td>Input/output behavior</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For Finding</strong></td>
+                        <td>Logical errors, security issues, inefficient code</td>
+                        <td>Missing functions, usability issues</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performed By</strong></td>
+                        <td>Developers, SDETs</td>
+                        <td>Testers, QA specialists</td>
+                    </tr>
+                    <tr>
+                        <td><strong>When Applied</strong></td>
+                        <td>Unit testing, integration testing</td>
+                        <td>System testing, acceptance testing</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Types of White Box Testing</h3>
+                <div class="process-flow">
+                    <div class="process-step">Control Flow Testing</div>
+                    <div class="process-step">Data Flow Testing</div>
+                    <div class="process-step">Branch Testing</div>
+                    <div class="process-step">Path Testing</div>
+                    <div class="process-step">Statement Testing</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Control Flow Section -->
+        <div id="control-flow" class="content-section">
+            <h2>🔄 Control Flow Testing</h2>
+            
+            <div class="concept-card">
+                <h3>What is Control Flow?</h3>
+                <p>Control flow refers to the <strong>order in which individual statements, instructions, or function calls</strong> are executed or evaluated in a program.</p>
+                
+                <div class="flow-chart">
+                    <div class="flow-node start-end">Start</div>
+                    <div class="flow-arrow right">→</div>
+                    <div class="flow-node">Input A, B</div>
+                    <div class="flow-arrow right">→</div>
+                    <div class="flow-node decision">A > B?</div>
+                    <div class="flow-arrow right">→</div>
+                    <div class="flow-node">Print A</div>
+                    <div class="flow-arrow down">→</div>
+                    <div class="flow-node">Print B</div>
+                    <div class="flow-arrow right">→</div>
+                    <div class="flow-node start-end">End</div>
+                </div>
+                
+                <div class="code-block">
+                    // Example control flow in code<br>
+                    function compare(a, b) {<br>
+                    &nbsp;&nbsp;if (a > b) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log(a + " is larger");<br>
+                    &nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log(b + " is larger");<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Control Flow Graph (CFG)</h3>
+                <p>A graphical representation of all paths that might be traversed through a program during its execution.</p>
+                
+                <div class="example-box">
+                    <p><strong>Components of a CFG:</strong></p>
+                    <ul>
+                        <li><strong>Nodes:</strong> Represent blocks of sequential code</li>
+                        <li><strong>Edges:</strong> Represent control flow between blocks</li>
+                        <li><strong>Decision Points:</strong> Where the flow branches (if/else, switch, loops)</li>
+                        <li><strong>Entry/Exit Points:</strong> Start and end of the program/function</li>
+                    </ul>
+                </div>
+                
+                <img src="https://www.guru99.com/images/1/093019_0715_WhiteBoxTest1.png" alt="Control Flow Graph Example" style="width:100%; border-radius:8px; margin:10px 0;">
+            </div>
+            
+            <div class="concept-card">
+                <h3>Why Test Control Flow?</h3>
+                <ul>
+                    <li>Ensures all logical paths are tested</li>
+                    <li>Reveals unreachable or dead code</li>
+                    <li>Identifies infinite loops</li>
+                    <li>Finds incorrect branching logic</li>
+                    <li>Helps verify complex conditional logic</li>
+                </ul>
+                
+                <div class="key-points">
+                    <h4>💡 Testing Principle:</h4>
+                    <p>"Every decision in the code should be tested with both true and false outcomes."</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Coverage Metrics Section -->
+        <div id="coverage" class="content-section">
+            <h2>📊 Coverage Metrics</h2>
+            
+            <div class="concept-card">
+                <h3>What is Code Coverage?</h3>
+                <p>A measure used to describe the degree to which the source code of a program is executed when a particular test suite runs.</p>
+                
+                <div class="coverage-metrics">
+                    <div class="metric-card">
+                        <h3>Statement Coverage</h3>
+                        <p>% of executable statements exercised</p>
+                        <div style="font-size:2em;">📝</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Branch Coverage</h3>
+                        <p>% of decision branches exercised</p>
+                        <div style="font-size:2em;">🌿</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Path Coverage</h3>
+                        <p>% of possible paths exercised</p>
+                        <div style="font-size:2em;">🛣️</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Condition Coverage</h3>
+                        <p>% of boolean sub-expressions tested</p>
+                        <div style="font-size:2em;">✅</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Statement Coverage Example</h3>
+                <div class="code-block">
+                    function calculateGrade(score) {<br>
+                    &nbsp;&nbsp;let grade;  // 1<br>
+                    &nbsp;&nbsp;if (score >= 90) {  // 2<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;grade = 'A';  // 3<br>
+                    &nbsp;&nbsp;} else if (score >= 80) {  // 4<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;grade = 'B';  // 5<br>
+                    &nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;grade = 'C';  // 6<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;return grade;  // 7<br>
+                    }
+                </div>
+                
+                <div class="example-box">
+                    <p><strong>Test Case 1:</strong> score = 95 → Covers statements 1,2,3,7</p>
+                    <p><strong>Test Case 2:</strong> score = 85 → Covers statements 1,2,4,5,7</p>
+                    <p><strong>Test Case 3:</strong> score = 75 → Covers statements 1,2,4,6,7</p>
+                    <p><strong>Coverage:</strong> 100% statement coverage with these 3 tests</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Branch Coverage Example</h3>
+                <p>Branch coverage requires testing all possible outcomes of each decision point.</p>
+                
+                <div class="code-block">
+                    function isEligible(age, hasLicense) {<br>
+                    &nbsp;&nbsp;if (age >= 18 && hasLicense) {  // Decision point<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+                    &nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return false;<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+                
+                <div class="example-box">
+                    <p><strong>Test Cases Needed for Full Branch Coverage:</strong></p>
+                    <ol>
+                        <li>age=20, hasLicense=true → true (true branch)</li>
+                        <li>age=20, hasLicense=false → false (false branch)</li>
+                        <li>age=15, hasLicense=true → false (false branch)</li>
+                    </ol>
+                    <p>Note: While case 3 tests a different condition, it exercises the same false branch as case 2.</p>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Coverage Goals:</h4>
+                <p>While 100% coverage is ideal, practical targets are often:</p>
+                <ul>
+                    <li>80-90% statement coverage</li>
+                    <li>70-80% branch coverage</li>
+                    <li>Critical components should aim for higher coverage</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Path Testing Section -->
+        <div id="path-testing" class="content-section">
+            <h2>🛣️ Path Testing</h2>
+            
+            <div class="concept-card">
+                <h3>What is Path Testing?</h3>
+                <p>A testing method that aims to execute <strong>all possible paths</strong> through a program from start to end.</p>
+                
+                <div class="example-box">
+                    <p><strong>Path:</strong> A sequence of instructions from program entry to exit.</p>
+                    <p><strong>Independent Path:</strong> A path that introduces at least one new set of processing statements or a new condition.</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Path Testing Example</h3>
+                <div class="code-block">
+                    function calculateDiscount(age, isStudent) {<br>
+                    &nbsp;&nbsp;let discount = 0;  // 1<br>
+                    &nbsp;&nbsp;if (age < 18) {  // 2<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;discount = 50;  // 3<br>
+                    &nbsp;&nbsp;} else if (isStudent) {  // 4<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;discount = 30;  // 5<br>
+                    &nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;discount = 10;  // 6<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;return discount;  // 7<br>
+                    }
+                </div>
+                
+                <div class="path-example">
+                    <div class="path-step">1 → 2 → 3 → 7</div>
+                    <div class="path-step">1 → 2 → 4 → 5 → 7</div>
+                    <div class="path-step">1 → 2 → 4 → 6 → 7</div>
+                </div>
+                
+                <div class="example-box">
+                    <p><strong>Test Cases for Full Path Coverage:</strong></p>
+                    <ol>
+                        <li>age=15, isStudent=false → Path 1-2-3-7 (50% discount)</li>
+                        <li>age=20, isStudent=true → Path 1-2-4-5-7 (30% discount)</li>
+                        <li>age=20, isStudent=false → Path 1-2-4-6-7 (10% discount)</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Basis Path Testing</h3>
+                <p>A structured path testing method that:</p>
+                <ol>
+                    <li>Draws the control flow graph</li>
+                    <li>Calculates cyclomatic complexity</li>
+                    <li>Determines a basis set of independent paths</li>
+                    <li>Creates test cases to exercise each path</li>
+                </ol>
+                
+                <div class="key-points">
+                    <h4>💡 Advantages:</h4>
+                    <ul>
+                        <li>Systematic approach to path selection</li>
+                        <li>Provides thorough coverage with minimal redundancy</li>
+                        <li>Helps find errors in complex logic</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cyclomatic Complexity Section -->
+        <div id="cyclomatic" class="content-section">
+            <h2>🌀 Cyclomatic Complexity</h2>
+            
+            <div class="concept-card">
+                <h3>What is Cyclomatic Complexity?</h3>
+                <p>A software metric that provides a quantitative measure of the <strong>number of linearly independent paths</strong> through a program's source code.</p>
+                
+                <div class="example-box">
+                    <p><strong>Purpose:</strong> To indicate the complexity of a program and help determine the number of test cases needed.</p>
+                    <p><strong>Formula:</strong> V(G) = E - N + 2P<br>
+                    Where:<br>
+                    E = Number of edges in the flow graph<br>
+                    N = Number of nodes in the flow graph<br>
+                    P = Number of connected components (usually 1)</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Calculating Cyclomatic Complexity</h3>
+                <p><strong>Simple Method:</strong> Count the number of decision points (if, while, for, case) and add 1.</p>
+                
+                <div class="code-block">
+                    function evaluateScore(score) {  // 1<br>
+                    &nbsp;&nbsp;if (score >= 90) {  // Decision 1 (+1)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return 'A';<br>
+                    &nbsp;&nbsp;} else if (score >= 80) {  // Decision 2 (+1)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return 'B';<br>
+                    &nbsp;&nbsp;} else if (score >= 70) {  // Decision 3 (+1)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return 'C';<br>
+                    &nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return 'F';<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+                
+                <div class="example-box">
+                    <p><strong>Calculations:</strong></p>
+                    <ul>
+                        <li>Number of decisions: 3 (if, else if, else if)</li>
+                        <li>Cyclomatic Complexity: 3 + 1 = 4</li>
+                        <li>Independent paths: 4 (one for each return statement)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Interpreting Complexity Values</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Complexity</th>
+                        <th>Risk Level</th>
+                        <th>Recommendation</th>
+                    </tr>
+                    <tr>
+                        <td>1-10</td>
+                        <td>Low</td>
+                        <td>Simple, easy to test</td>
+                    </tr>
+                    <tr>
+                        <td>11-20</td>
+                        <td>Moderate</td>
+                        <td>More testing effort needed</td>
+                    </tr>
+                    <tr>
+                        <td>21-50</td>
+                        <td>High</td>
+                        <td>Difficult to test, consider refactoring</td>
+                    </tr>
+                    <tr>
+                        <td>>50</td>
+                        <td>Very High</td>
+                        <td>Untestable, must refactor</td>
+                    </tr>
+                </table>
+                
+                <div class="key-points">
+                    <h4>💡 Good Practice:</h4>
+                    <p>Aim to keep cyclomatic complexity below 10 per function/method. Break complex functions into smaller, simpler ones.</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Reducing Cyclomatic Complexity</h3>
+                <ul>
+                    <li><strong>Decompose</strong> large functions into smaller ones</li>
+                    <li><strong>Simplify</strong> conditional logic</li>
+                    <li><strong>Use polymorphism</strong> instead of switch-case</li>
+                    <li><strong>Apply design patterns</strong> like Strategy or State</li>
+                    <li><strong>Remove dead code</strong> and redundant conditions</li>
+                </ul>
+                
+                <div class="example-box">
+                    <p><strong>Before (Complexity = 4):</strong><br>
+                    <code>if (type == "A") { ... } else if (type == "B") { ... } else if (type == "C") { ... }</code></p>
+                    
+                    <p><strong>After (Complexity = 1):</strong><br>
+                    <code>const handlers = { A: handleA, B: handleB, C: handleC };<br>
+                    handlers[type]();</code></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Practice Quiz</h2>
+            
+            <div class="quiz-section">
+                <h3>Test Your Understanding:</h3>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q1')">
+                    <strong>Q1: What's the main difference between white-box and black-box testing?</strong>
+                    <div id="q1" class="answer">
+                        <strong>Answer:</strong> White-box testing examines internal code structures and requires knowledge of implementation, focusing on code paths and logic, while black-box testing verifies functionality without internal knowledge, focusing on inputs and outputs.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q2')">
+                    <strong>Q2: What are the four main types of code coverage metrics?</strong>
+                    <div id="q2" class="answer">
+                        <strong>Answer:</strong> 1) Statement coverage (% of statements executed), 2) Branch coverage (% of decision branches taken), 3) Path coverage (% of possible paths taken), and 4) Condition coverage (% of boolean sub-expressions evaluated).
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q3')">
+                    <strong>Q3: How do you calculate cyclomatic complexity?</strong>
+                    <div id="q3" class="answer">
+                        <strong>Answer:</strong> The simplest method is to count the number of decision points (if, while, for, case) in the code and add 1. The formal formula is V(G) = E - N + 2P where E=edges, N=nodes, P=connected components in the control flow graph.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q4')">
+                    <strong>Q4: Why is path testing important?</strong>
+                    <div id="q4" class="answer">
+                        <strong>Answer:</strong> Path testing ensures all possible execution paths through the code are tested, which helps uncover errors in complex logic, unreachable code, infinite loops, and incorrect branching that might be missed by other testing methods.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q5')">
+                    <strong>Q5: What does a high cyclomatic complexity value indicate?</strong>
+                    <div id="q5" class="answer">
+                        <strong>Answer:</strong> High cyclomatic complexity indicates complex code with many decision paths, making it harder to understand, maintain, and test. Values above 20 suggest the code should be refactored into simpler components.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q6')">
+                    <strong>Q6: How many test cases are needed for full branch coverage of a function with one if-else statement?</strong>
+                    <div id="q6" class="answer">
+                        <strong>Answer:</strong> Two test cases are needed - one where the if condition is true (taking the true branch), and one where it's false (taking the else branch). This ensures both decision outcomes are tested.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAnswer(questionId) {
+            const answer = document.getElementById(questionId);
+            answer.classList.toggle('show');
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
