@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Box Testing - Path & Data Flow Testing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .example-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        
+        .flow-chart {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .flow-chart img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            background: #e9ecef;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        .path-diagram {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .data-flow-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .data-flow-table th,
+        .data-flow-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .data-flow-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .data-flow-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 White Box Testing</h1>
+            <p>Path Testing & Data Flow Testing Techniques</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('intro')">Introduction</button>
+            <button class="tab-button" onclick="showTab('path-testing')">Path Testing</button>
+            <button class="tab-button" onclick="showTab('data-flow')">Data Flow Testing</button>
+            <button class="tab-button" onclick="showTab('comparison')">Comparison</button>
+            <button class="tab-button" onclick="showTab('quiz')">Practice Quiz</button>
+        </div>
+        
+        <!-- Introduction Section -->
+        <div id="intro" class="content-section active">
+            <h2>📚 Introduction to White Box Testing</h2>
+            
+            <div class="concept-card">
+                <h3>What is White Box Testing?</h3>
+                <p>White Box Testing (also known as Clear Box, Glass Box, or Structural Testing) is a software testing method where the internal structure/design/implementation of the item being tested is known to the tester.</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Key Characteristics:</h4>
+                <ul>
+                    <li>Tests internal structures or workings of an application</li>
+                    <li>Requires knowledge of the code and implementation</li>
+                    <li>Usually performed by developers</li>
+                    <li>Focuses on checking predefined inputs against expected outputs</li>
+                    <li>Tests paths, branches, conditions, and data flows</li>
+                </ul>
+            </div>
+            
+            <h3>White Box Testing Techniques:</h3>
+            
+            <div class="concept-card">
+                <h4>1. Path Testing</h4>
+                <p>Testing all possible paths through a program's control flow.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Testing every possible route through a complex decision structure in code.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>2. Data Flow Testing</h4>
+                <p>Testing based on the flow of data through the program.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> Tracking how variables are defined, used, and killed throughout program execution.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>3. Branch Testing</h4>
+                <p>Testing all branches (true/false) of conditional statements.</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>4. Statement Testing</h4>
+                <p>Testing that each statement in the program is executed at least once.</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Why Use White Box Testing?</h4>
+                <ul>
+                    <li>Finds hidden errors that black box testing might miss</li>
+                    <li>Helps optimize code by identifying redundant logic</li>
+                    <li>Ensures all logical paths are tested</li>
+                    <li>Can test individual components before integration</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Path Testing Section -->
+        <div id="path-testing" class="content-section">
+            <h2>🛤️ Path Testing</h2>
+            
+            <div class="concept-card">
+                <h3>What is Path Testing?</h3>
+                <p>Path testing is a structural testing method that involves testing all possible paths through a program's control flow. The goal is to ensure that every possible path from entry to exit is executed at least once.</p>
+            </div>
+            
+            <h3>Key Concepts:</h3>
+            
+            <div class="concept-card">
+                <h4>Control Flow Graph (CFG)</h4>
+                <p>A graphical representation of all paths that might be traversed through a program during its execution.</p>
+                <div class="flow-chart">
+                    <img src="https://miro.medium.com/v2/resize:fit:1400/1*Vr3W2h4Qe8uN1eMyI6iL-Q.png" alt="Control Flow Graph Example" style="max-width: 500px;">
+                    <p><em>Example of a Control Flow Graph</em></p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Basis Path Testing</h4>
+                <p>A white box testing technique based on the control structure of the program. It involves:</p>
+                <ol>
+                    <li>Drawing the control flow graph</li>
+                    <li>Calculating the cyclomatic complexity</li>
+                    <li>Identifying the independent paths</li>
+                    <li>Creating test cases for each path</li>
+                </ol>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Cyclomatic Complexity</h4>
+                <p>A software metric that provides a quantitative measure of the logical complexity of a program. It's calculated as:</p>
+                <p><strong>V(G) = E - N + 2P</strong></p>
+                <p>Where:
+                    <ul>
+                        <li>E = Number of edges in the flow graph</li>
+                        <li>N = Number of nodes in the flow graph</li>
+                        <li>P = Number of connected components</li>
+                    </ul>
+                </p>
+                <div class="example-box">
+                    <strong>Example Calculation:</strong> For a simple if-else statement:
+                    <ul>
+                        <li>Edges (E) = 4</li>
+                        <li>Nodes (N) = 4</li>
+                        <li>Connected components (P) = 1</li>
+                        <li>V(G) = 4 - 4 + 2 = 2</li>
+                    </ul>
+                    This means there are 2 independent paths.
+                </div>
+            </div>
+            
+            <h3>Path Testing Example:</h3>
+            
+            <div class="code-example">
+                <pre>
+// Function to calculate grade based on score
+function calculateGrade(score) {
+    let grade;  // 1
+    
+    if (score >= 90) {  // 2
+        grade = 'A';    // 3
+    } else if (score >= 80) {  // 4
+        grade = 'B';    // 5
+    } else if (score >= 70) {  // 6
+        grade = 'C';    // 7
+    } else if (score >= 60) {  // 8
+        grade = 'D';    // 9
+    } else {            // 10
+        grade = 'F';    // 11
+    }
+    
+    return grade;       // 12
+}</pre>
+            </div>
+            
+            <div class="path-diagram">
+                <img src="https://www.researchgate.net/publication/334382709/figure/fig1/AS:779834737954816@1562863823545/Control-flow-graph-of-the-grade-calculation-program.png" alt="Grade Calculation Control Flow" style="max-width: 600px;">
+                <p><em>Control Flow Graph for the Grade Calculation Function</em></p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Independent Paths:</h4>
+                <ol>
+                    <li>1 → 2 → 3 → 12</li>
+                    <li>1 → 2 → 4 → 5 → 12</li>
+                    <li>1 → 2 → 4 → 6 → 7 → 12</li>
+                    <li>1 → 2 → 4 → 6 → 8 → 9 → 12</li>
+                    <li>1 → 2 → 4 → 6 → 8 → 10 → 11 → 12</li>
+                </ol>
+                <p>Each path represents a different decision outcome in the grading logic.</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Path Testing Advantages:</h4>
+                <ul>
+                    <li>Helps identify dead code (code that is never executed)</li>
+                    <li>Ensures all logical decisions are tested</li>
+                    <li>Can find errors in complex logical conditions</li>
+                    <li>Provides good code coverage</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Data Flow Testing Section -->
+        <div id="data-flow" class="content-section">
+            <h2>📊 Data Flow Testing</h2>
+            
+            <div class="concept-card">
+                <h3>What is Data Flow Testing?</h3>
+                <p>Data flow testing is a white box testing technique that examines the lifecycle of variables in a program. It focuses on the points where variables are defined (assigned values), used (referenced), and killed (go out of scope).</p>
+            </div>
+            
+            <h3>Key Concepts:</h3>
+            
+            <div class="concept-card">
+                <h4>Variable States:</h4>
+                <ul>
+                    <li><strong>Define (d):</strong> A variable is given a value (assignment)</li>
+                    <li><strong>Use (u):</strong> A variable's value is read (reference)</li>
+                    <li><strong>Kill (k):</strong> A variable's value is no longer available (out of scope)</li>
+                </ul>
+                <div class="example-box">
+                    <strong>Example:</strong>
+                    <pre>
+int x = 10;  // Define (d)
+print(x);    // Use (u)
+x = 20;      // Define (d) and Kill previous value
+// End of scope - Kill (k)</pre>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Data Flow Anomalies:</h4>
+                <p>These are suspicious patterns in variable usage that might indicate bugs:</p>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Anomaly</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td>dd</td>
+                        <td>Variable defined twice without being used</td>
+                        <td>x=5; x=10; (without using x between)</td>
+                    </tr>
+                    <tr>
+                        <td>du</td>
+                        <td>Variable defined then used (normal)</td>
+                        <td>x=5; print(x);</td>
+                    </tr>
+                    <tr>
+                        <td>dk</td>
+                        <td>Variable defined then killed without use</td>
+                        <td>x=5; (scope ends without using x)</td>
+                    </tr>
+                    <tr>
+                        <td>uu</td>
+                        <td>Variable used twice without redefinition</td>
+                        <td>print(x); print(x); (without changing x)</td>
+                    </tr>
+                    <tr>
+                        <td>ud</td>
+                        <td>Variable used then redefined</td>
+                        <td>print(x); x=10;</td>
+                    </tr>
+                    <tr>
+                        <td>uk</td>
+                        <td>Variable used then killed</td>
+                        <td>print(x); (scope ends)</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <h3>Data Flow Testing Example:</h3>
+            
+            <div class="code-example">
+                <pre>
+function calculateTotal(items) {
+    let total = 0;          // d: total
+    
+    for (let item of items) {  // d: item
+        if (item.price > 100) {  // u: item
+            total += item.price * 0.9;  // u: item, u: total, d: total
+        } else {
+            total += item.price;  // u: item, u: total, d: total
+        }
+    }
+    
+    return total;           // u: total
+                           // k: total, k: item
+}</pre>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Data Flow Analysis:</h4>
+                <table class="data-flow-table">
+                    <tr>
+                        <th>Variable</th>
+                        <th>Define (d)</th>
+                        <th>Use (u)</th>
+                        <th>Kill (k)</th>
+                    </tr>
+                    <tr>
+                        <td>total</td>
+                        <td>Line 2 (let total = 0)</td>
+                        <td>Line 5 (total +=), Line 7 (total +=), Line 10 (return)</td>
+                        <td>End of function</td>
+                    </tr>
+                    <tr>
+                        <td>item</td>
+                        <td>Line 4 (for loop)</td>
+                        <td>Line 5 (if condition, item.price), Line 7 (item.price)</td>
+                        <td>End of function</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Test Cases Based on Data Flow:</h4>
+                <ol>
+                    <li><strong>Define-Use Path:</strong> Test the path from total's definition to its first use</li>
+                    <li><strong>Use-Use Path:</strong> Test between two uses of total (lines 5 and 7)</li>
+                    <li><strong>Define-Kill Path:</strong> Ensure no path exists where total is defined but never used</li>
+                </ol>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Data Flow Testing Advantages:</h4>
+                <ul>
+                    <li>Detects variables that are used before initialization</li>
+                    <li>Finds variables that are defined but never used</li>
+                    <li>Identifies variables that are redefined before previous value is used</li>
+                    <li>Helps optimize variable usage and scope</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Comparison Section -->
+        <div id="comparison" class="content-section">
+            <h2>🆚 Path Testing vs Data Flow Testing</h2>
+            
+            <div class="concept-card">
+                <h3>Comparison of Techniques</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Path Testing</th>
+                        <th>Data Flow Testing</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Focus</strong></td>
+                        <td>Control flow and execution paths</td>
+                        <td>Variable lifecycle and data usage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Basis</strong></td>
+                        <td>Control flow graph</td>
+                        <td>Data flow graph</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Primary Goal</strong></td>
+                        <td>Execute all possible paths</td>
+                        <td>Track variable definitions and uses</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexity Measure</strong></td>
+                        <td>Cyclomatic complexity</td>
+                        <td>Data flow complexity</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Finding logical errors in control structures</td>
+                        <td>Finding data-related anomalies and bugs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Test Cases</strong></td>
+                        <td>Based on independent paths</td>
+                        <td>Based on define-use chains</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="concept-card">
+                <h3>When to Use Each Technique</h3>
+                
+                <h4>Use Path Testing When:</h4>
+                <ul>
+                    <li>The code has complex decision logic</li>
+                    <li>You need to ensure all branches are executed</li>
+                    <li>You want to measure code coverage</li>
+                    <li>Testing algorithms with multiple paths</li>
+                </ul>
+                
+                <h4>Use Data Flow Testing When:</h4>
+                <ul>
+                    <li>The code has complex data manipulation</li>
+                    <li>You need to verify proper variable initialization</li>
+                    <li>You suspect unused variables or values</li>
+                    <li>Testing data processing functions</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Combining Both Techniques</h3>
+                <p>In practice, the best testing strategy often combines both path and data flow testing:</p>
+                <ol>
+                    <li>Use path testing to ensure all control paths are covered</li>
+                    <li>Use data flow testing to verify proper data handling along those paths</li>
+                    <li>Check for data anomalies in each independent path</li>
+                    <li>Ensure all variable definitions have corresponding uses in all paths</li>
+                </ol>
+                <div class="example-box">
+                    <strong>Example Combination:</strong>
+                    <p>For the grade calculation function:</p>
+                    <ol>
+                        <li>Identify all paths (A, B, C, D, F grades)</li>
+                        <li>For each path, verify:
+                            <ul>
+                                <li>'grade' variable is properly defined</li>
+                                <li>'score' is properly used</li>
+                                <li>No unused variables</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Best Practice:</h4>
+                <p>Use path testing first to establish basic coverage, then apply data flow testing to verify data integrity along those paths. This combination provides both structural and data-oriented verification.</p>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Practice Quiz</h2>
+            
+            <div class="quiz-section">
+                <h3>Test Your Understanding:</h3>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q1')">
+                    <strong>Q1: What is the main purpose of path testing?</strong>
+                    <div id="q1" class="answer">
+                        <strong>Answer:</strong> The main purpose of path testing is to ensure that all possible paths through a program's control flow are executed at least once during testing, verifying that all logical decisions work as intended.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q2')">
+                    <strong>Q2: Calculate the cyclomatic complexity for a program with 10 nodes and 11 edges.</strong>
+                    <div id="q2" class="answer">
+                        <strong>Answer:</strong> Using the formula V(G) = E - N + 2P (where P=1 for a single connected component):
+                        V(G) = 11 - 10 + 2 = 3
+                        The cyclomatic complexity is 3.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q3')">
+                    <strong>Q3: What are the three main states of a variable in data flow testing?</strong>
+                    <div id="q3" class="answer">
+                        <strong>Answer:</strong> The three main states are:
+                        1. Define (d) - when a variable is assigned a value
+                        2. Use (u) - when a variable's value is read
+                        3. Kill (k) - when a variable goes out of scope or becomes invalid
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q4')">
+                    <strong>Q4: What data flow anomaly is represented by a variable being defined twice without being used between the definitions?</strong>
+                    <div id="q4" class="answer">
+                        <strong>Answer:</strong> This is a "dd" anomaly (Define-Define), where a variable is defined twice without an intermediate use. It might indicate redundant code or a potential logic error.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q5')">
+                    <strong>Q5: How does data flow testing complement path testing?</strong>
+                    <div id="q5" class="answer">
+                        <strong>Answer:</strong> While path testing ensures all control paths are executed, data flow testing verifies proper data handling along those paths. Path testing checks "are all paths taken?" while data flow testing checks "is data handled correctly on each path?"
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q6')">
+                    <strong>Q6: For the code below, identify all paths and data flow for variable 'result':</strong>
+                    <div class="code-example">
+                        <pre>
+function checkValue(x) {
+    let result;          // 1
+    if (x > 0) {         // 2
+        result = "Positive";  // 3
+    } else {
+        result = "Non-positive"; // 4
+    }
+    return result;       // 5
+}</pre>
+                    </div>
+                    <div id="q6" class="answer">
+                        <strong>Answer:</strong>
+                        <p><strong>Paths:</strong>
+                        1. 1 → 2 → 3 → 5 (x > 0)
+                        2. 1 → 2 → 4 → 5 (x <= 0)</p>
+                        
+                        <p><strong>Data Flow for 'result':</strong>
+                        - Define (d): Lines 1 (declaration), 3, 4
+                        - Use (u): Line 5
+                        - Kill (k): End of function</p>
+                        
+                        <p><strong>Test Cases:</strong>
+                        1. x = 5: Path 1, result defined at 3, used at 5
+                        2. x = -2: Path 2, result defined at 4, used at 5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAnswer(questionId) {
+            const answer = document.getElementById(questionId);
+            answer.classList.toggle('show');
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
