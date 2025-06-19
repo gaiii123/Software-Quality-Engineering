@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 4: Black Box Testing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .example-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .testing-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .testing-box {
+            width: 200px;
+            height: 200px;
+            background: #4caf50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            margin: 10px;
+            text-align: center;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .testing-box.black-box {
+            background: #333;
+        }
+        
+        .testing-box.white-box {
+            background: #fff;
+            color: #333;
+            border: 2px solid #333;
+        }
+        
+        .testing-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .partition-diagram {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .partition {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+        }
+        
+        .partition-box {
+            width: 150px;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+            border-radius: 5px;
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+        }
+        
+        .partition-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .boundary-example {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        
+        .boundary-point {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f44336;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .boundary-point.valid {
+            background: #4caf50;
+        }
+        
+        .boundary-point.invalid {
+            background: #ff9800;
+        }
+        
+        .boundary-point::after {
+            content: attr(data-value);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        
+        .boundary-line {
+            height: 4px;
+            background: #667eea;
+            flex-grow: 1;
+            margin: 0 -15px;
+            position: relative;
+            top: 28px;
+            z-index: -1;
+        }
+        
+        .decision-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .decision-table th,
+        .decision-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .decision-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .decision-table .condition-row {
+            background: #e3f2fd;
+        }
+        
+        .decision-table .action-row {
+            background: #d4edda;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            background: #e9ecef;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .testing-visual {
+                flex-direction: column;
+            }
+            
+            .boundary-example {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .boundary-point {
+                margin: 10px 0;
+            }
+            
+            .boundary-line {
+                width: 4px;
+                height: 40px;
+                margin: -5px 0;
+                flex-grow: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Session 4: Black Box Testing</h1>
+            <p>Techniques for Testing Software Without Knowing Its Internals</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('strategies')">Testing Strategies</button>
+            <button class="tab-button" onclick="showTab('equivalence')">Equivalence Partitioning</button>
+            <button class="tab-button" onclick="showTab('boundary')">Boundary Value Analysis</button>
+            <button class="tab-button" onclick="showTab('decision')">Decision Tables</button>
+            <button class="tab-button" onclick="showTab('quiz')">Practice Quiz</button>
+        </div>
+        
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2>🔍 Black Box Testing Overview</h2>
+            
+            <div class="concept-card">
+                <h3>What is Black Box Testing?</h3>
+                <p>Black Box Testing is a method of software testing that examines the functionality of an application <strong>without peering into its internal structures or workings</strong>.</p>
+                
+                <div class="testing-visual">
+                    <div class="testing-box black-box">
+                        <div style="font-size: 3em;">📦</div>
+                        <h3>Black Box</h3>
+                        <p>Input → [Unknown Internals] → Output</p>
+                    </div>
+                    <div class="testing-box white-box">
+                        <div style="font-size: 3em;">🔍</div>
+                        <h3>White Box</h3>
+                        <p>Input → [Known Code Paths] → Output</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Key Characteristics</h3>
+                <ul>
+                    <li><strong>Dynamic:</strong> The program must be running to perform tests</li>
+                    <li><strong>Behavioral:</strong> Focuses on external behavior rather than internal implementation</li>
+                    <li><strong>Specification-based:</strong> Tests are derived from requirements and specifications</li>
+                    <li><strong>Input/Output Focused:</strong> Test cases are formulated as (input, expected output) pairs</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Black Box vs White Box Testing</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Black Box Testing</th>
+                        <th>White Box Testing</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Knowledge</strong></td>
+                        <td>No internal knowledge needed</td>
+                        <td>Requires internal implementation knowledge</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Focus</strong></td>
+                        <td>Input/output behavior</td>
+                        <td>Internal states and code paths</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Also Known As</strong></td>
+                        <td>Functional, behavioral, specification-based</td>
+                        <td>Structural, glass-box, clear-box</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For Finding</strong></td>
+                        <td>Missing functions, usability issues, interface errors</td>
+                        <td>Logical errors, inefficient code paths</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performed By</strong></td>
+                        <td>Testers, QA specialists</td>
+                        <td>Developers, SDETs</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Types of Errors Found by Black Box Testing</h3>
+                <div class="example-box">
+                    <ul>
+                        <li><strong>Incorrect or missing functions:</strong> The software doesn't do what it's supposed to</li>
+                        <li><strong>Usability problems:</strong> Difficult or confusing user interfaces</li>
+                        <li><strong>Performance issues:</strong> Slow response times or resource hogging</li>
+                        <li><strong>Initialization/termination errors:</strong> Problems starting up or shutting down</li>
+                        <li><strong>Interface errors:</strong> Issues with how components interact</li>
+                        <li><strong>Data structure errors:</strong> Problems with how data is stored or accessed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Testing Strategies Section -->
+        <div id="strategies" class="content-section">
+            <h2>🧠 Black Box Testing Strategies</h2>
+            
+            <div class="concept-card">
+                <h3>Common Black Box Testing Techniques</h3>
+                <div class="process-flow">
+                    <div class="process-step">Equivalence Partitioning</div>
+                    <div class="process-step">Boundary Value Analysis</div>
+                    <div class="process-step">Decision Table Testing</div>
+                    <div class="process-step">State Transition</div>
+                    <div class="process-step">Use Case Testing</div>
+                </div>
+                
+                <p>These techniques help systematically create test cases that effectively verify functionality while minimizing redundancy.</p>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Why Use These Strategies?</h3>
+                <div class="example-box">
+                    <p><strong>Problem:</strong> The universe of all possible test cases is typically so large that exhaustive testing is impossible.</p>
+                    <p><strong>Solution:</strong> These strategies help select a relatively small number of test cases that are most likely to reveal defects.</p>
+                </div>
+                
+                <div class="key-points">
+                    <h4>💡 Testing Principle:</h4>
+                    <p>"Testing everything is impossible; smart testing is about choosing the right things to test."</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Testing Process Overview</h3>
+                <img src="https://www.guru99.com/images/1/093019_0715_BlackBoxTest1.png" alt="Black Box Testing Process" style="width:100%; border-radius:8px; margin:10px 0;">
+                <p>1. Analyze requirements/specifications<br>
+                2. Design test cases using appropriate techniques<br>
+                3. Execute tests and compare actual vs. expected results<br>
+                4. Report and track defects<br>
+                5. Verify fixes and perform regression testing</p>
+            </div>
+        </div>
+        
+        <!-- Equivalence Partitioning Section -->
+        <div id="equivalence" class="content-section">
+            <h2>📊 Equivalence Partitioning</h2>
+            
+            <div class="concept-card">
+                <h3>What is Equivalence Partitioning?</h3>
+                <p>A technique to divide input data into <strong>equivalent classes</strong> where:</p>
+                <ul>
+                    <li>All members of a class are expected to be processed similarly</li>
+                    <li>Testing one member is equivalent to testing all members</li>
+                    <li>Reduces the number of test cases needed</li>
+                </ul>
+                
+                <div class="partition-diagram">
+                    <div class="partition">
+                        <div class="partition-title">Input Domain</div>
+                        <div class="partition-box">All Possible Inputs</div>
+                    </div>
+                    <div style="display: flex; align-items: center;">→</div>
+                    <div class="partition">
+                        <div class="partition-title">Partitioned</div>
+                        <div class="partition-box">Valid Class 1</div>
+                        <div class="partition-box">Valid Class 2</div>
+                        <div class="partition-box">Invalid Class 1</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>How to Apply Equivalence Partitioning</h3>
+                <div class="process-flow">
+                    <div class="process-step">1. Identify Input Classes</div>
+                    <div class="process-step">2. Partition Valid/Invalid</div>
+                    <div class="process-step">3. Select Test Cases</div>
+                </div>
+                
+                <h4>Detailed Steps:</h4>
+                <ol>
+                    <li><strong>First-level partitioning:</strong> Separate valid vs. invalid test cases</li>
+                    <li><strong>Second-level partitioning:</strong> Divide valid and invalid cases into equivalence classes</li>
+                    <li><strong>Create test cases:</strong> Select at least one value from each equivalence class</li>
+                </ol>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Equivalence Partitioning Example</h3>
+                <p>Testing a function that accepts an integer between -99 and 99:</p>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Input</th>
+                        <th>Valid Equivalence Classes</th>
+                        <th>Invalid Equivalence Classes</th>
+                    </tr>
+                    <tr>
+                        <td>Integer N<br>(-99 ≤ N ≤ 99)</td>
+                        <td>
+                            <ul>
+                                <li>[-99, -10]</li>
+                                <li>[-9, -1]</li>
+                                <li>0</li>
+                                <li>[1, 9]</li>
+                                <li>[10, 99]</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>&lt; -99</li>
+                                <li>&gt; 99</li>
+                                <li>Malformed numbers (12-, 1-2-3)</li>
+                                <li>Non-numeric strings ("junk", "1E2", "$13")</li>
+                                <li>Empty value</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="example-box">
+                    <strong>Test Case Selection:</strong> We would select one value from each valid class (e.g., -50, -5, 0, 5, 50) and representative values from each invalid class.
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Multiple Partitioning Dimensions</h3>
+                <p>You can partition the same input in different ways based on different criteria:</p>
+                
+                <div class="example-box">
+                    <p><strong>Function:</strong> int Add(n1, n2, n3, ...)</p>
+                    <ul>
+                        <li><strong>By number of inputs:</strong> 1, 2, 3, etc.</li>
+                        <li><strong>By number signs:</strong> positive, negative, both</li>
+                        <li><strong>By magnitude:</strong> large numbers, small numbers</li>
+                    </ul>
+                    <p>Each partitioning approach will reveal different types of potential errors.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Boundary Value Analysis Section -->
+        <div id="boundary" class="content-section">
+            <h2>🚧 Boundary Value Analysis (BVA)</h2>
+            
+            <div class="concept-card">
+                <h3>What is Boundary Value Analysis?</h3>
+                <p>A testing technique that focuses on <strong>values at the boundaries</strong> of equivalence partitions because:</p>
+                <ul>
+                    <li>Errors tend to occur at boundaries more than in the "middle" of ranges</li>
+                    <li>Boundaries are where behavior often changes</li>
+                    <li>Developers frequently make off-by-one errors at boundaries</li>
+                </ul>
+                
+                <div class="key-points">
+                    <h4>💡 Testing Principle:</h4>
+                    <p>"If it works at the edges, it's likely to work everywhere in between."</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>How to Apply BVA</h3>
+                <p>For each equivalence partition boundary:</p>
+                <ol>
+                    <li>Test the exact boundary value</li>
+                    <li>Test just below the boundary (minimum-1)</li>
+                    <li>Test just above the boundary (maximum+1)</li>
+                </ol>
+                
+                <div class="boundary-example">
+                    <div class="boundary-point invalid" data-value="-100"><</div>
+                    <div class="boundary-line"></div>
+                    <div class="boundary-point valid" data-value="-99">=</div>
+                    <div class="boundary-line"></div>
+                    <div class="boundary-point valid" data-value="-98">></div>
+                    <div class="boundary-line"></div>
+                    <div style="width: 100px; text-align: center;">...</div>
+                    <div class="boundary-line"></div>
+                    <div class="boundary-point valid" data-value="98"><</div>
+                    <div class="boundary-line"></div>
+                    <div class="boundary-point valid" data-value="99">=</div>
+                    <div class="boundary-line"></div>
+                    <div class="boundary-point invalid" data-value="100">></div>
+                </div>
+                <p style="text-align: center; margin-top: 40px;">Testing boundaries for -99 ≤ N ≤ 99</p>
+            </div>
+            
+            <div class="concept-card">
+                <h3>BVA Example: Phone Number Validation</h3>
+                <p>Requirements:</p>
+                <ul>
+                    <li>Area code: [200, 999]</li>
+                    <li>Prefix: [200, 999]</li>
+                    <li>Suffix: Any 4 digits</li>
+                </ul>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Input Field</th>
+                        <th>Boundary Cases</th>
+                    </tr>
+                    <tr>
+                        <td>Area code</td>
+                        <td>
+                            <ul>
+                                <li>199 (invalid)</li>
+                                <li>200 (valid)</li>
+                                <li>201 (valid)</li>
+                                <li>998 (valid)</li>
+                                <li>999 (valid)</li>
+                                <li>1000 (invalid)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Prefix</td>
+                        <td>
+                            <ul>
+                                <li>199 (invalid)</li>
+                                <li>200 (valid)</li>
+                                <li>201 (valid)</li>
+                                <li>998 (valid)</li>
+                                <li>999 (valid)</li>
+                                <li>1000 (invalid)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Suffix</td>
+                        <td>
+                            <ul>
+                                <li>3 digits (invalid)</li>
+                                <li>4 digits (valid)</li>
+                                <li>5 digits (invalid)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Why BVA Works</h3>
+                <div class="example-box">
+                    <p>Consider these code implementations for area code validation:</p>
+                    <p><strong>Implementation 1:</strong><br>
+                    <code>if (200 < areaCode && areaCode < 999) { // valid }</code><br>
+                    <em>This incorrectly excludes 200 and 999</em></p>
+                    
+                    <p><strong>Implementation 2:</strong><br>
+                    <code>if (200 <= areaCode && areaCode <= 999) { // valid }</code><br>
+                    <em>This is correct</em></p>
+                    
+                    <p>Testing boundary values (200 and 999) would catch the error in Implementation 1, while testing a middle value (like 500) would not.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decision Tables Section -->
+        <div id="decision" class="content-section">
+            <h2>📝 Decision Table Testing</h2>
+            
+            <div class="concept-card">
+                <h3>What is Decision Table Testing?</h3>
+                <p>A technique for testing <strong>complex business rules</strong> by:</p>
+                <ul>
+                    <li>Listing all possible input conditions (causes)</li>
+                    <li>Determining the expected actions (effects)</li>
+                    <li>Creating test cases for each combination (rule)</li>
+                </ul>
+                
+                <div class="key-points">
+                    <h4>💡 When to Use:</h4>
+                    <p>Decision tables are excellent for testing systems with:</p>
+                    <ul>
+                        <li>Multiple input conditions that affect outcomes</li>
+                        <li>Complex business rules</li>
+                        <li>Clear "if-then" logic patterns</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Decision Table Components</h3>
+                <table class="decision-table">
+                    <tr>
+                        <th colspan="4">Monopoly Rent Payment Rules</th>
+                    </tr>
+                    <tr class="condition-row">
+                        <td><strong>Conditions</strong></td>
+                        <td>Player lands on owned property</td>
+                        <td>Player has enough money</td>
+                        <td>Property is mortgaged</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 1</strong></td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 2</strong></td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 3</strong></td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 4</strong></td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr class="action-row">
+                        <td><strong>Actions</strong></td>
+                        <td>Pay rent</td>
+                        <td>Bankrupt</td>
+                        <td>No rent</td>
+                    </tr>
+                </table>
+                
+                <div class="example-box">
+                    <p><strong>Business Rules:</strong></p>
+                    <ol>
+                        <li>If a player lands on another's unmortgaged property and can pay rent, they must pay</li>
+                        <li>If they can't pay rent, they go bankrupt</li>
+                        <li>No rent is paid for mortgaged properties</li>
+                        <li>No action if not landing on another's property</li>
+                    </ol>
+                    <p>Each column (Rule) becomes a test case.</p>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Creating Decision Tables</h3>
+                <div class="process-flow">
+                    <div class="process-step">1. Identify Conditions</div>
+                    <div class="process-step">2. List Possible Values</div>
+                    <div class="process-step">3. Determine Actions</div>
+                    <div class="process-step">4. Create Rules</div>
+                    <div class="process-step">5. Derive Test Cases</div>
+                </div>
+                
+                <h4>Tips for Effective Decision Tables:</h4>
+                <ul>
+                    <li>Keep conditions binary (Yes/No) when possible</li>
+                    <li>Look for and eliminate impossible combinations</li>
+                    <li>Consider using "Don't Care" (-) for irrelevant conditions</li>
+                    <li>Verify all business rules are covered</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Decision Table Example: Login System</h3>
+                <table class="decision-table">
+                    <tr>
+                        <th colspan="5">Login System Rules</th>
+                    </tr>
+                    <tr class="condition-row">
+                        <td><strong>Conditions</strong></td>
+                        <td>Valid username</td>
+                        <td>Valid password</td>
+                        <td>Account active</td>
+                        <td>Login attempts < 3</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 1</strong></td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 2</strong></td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 3</strong></td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 4</strong></td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rule 5</strong></td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr class="action-row">
+                        <td><strong>Actions</strong></td>
+                        <td>Successful login</td>
+                        <td>Invalid password</td>
+                        <td>Invalid username</td>
+                        <td>Account locked</td>
+                        <td>Too many attempts</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Practice Quiz</h2>
+            
+            <div class="quiz-section">
+                <h3>Test Your Understanding:</h3>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q1')">
+                    <strong>Q1: What's the fundamental difference between black-box and white-box testing?</strong>
+                    <div id="q1" class="answer">
+                        <strong>Answer:</strong> Black-box testing examines functionality without knowledge of internal implementation (focusing on inputs/outputs), while white-box testing uses knowledge of internal code structure to test internal paths and logic.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q2')">
+                    <strong>Q2: Why is equivalence partitioning useful in testing?</strong>
+                    <div id="q2" class="answer">
+                        <strong>Answer:</strong> Equivalence partitioning reduces the number of test cases needed by grouping inputs where the system should behave similarly, allowing testers to check one representative from each group rather than all possible values.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q3')">
+                    <strong>Q3: For a field that accepts values 10-50, what boundary values would you test?</strong>
+                    <div id="q3" class="answer">
+                        <strong>Answer:</strong> You would test: 9 (just below minimum), 10 (minimum), 11 (just above minimum), 49 (just below maximum), 50 (maximum), and 51 (just above maximum).
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q4')">
+                    <strong>Q4: What types of errors is black-box testing particularly good at finding?</strong>
+                    <div id="q4" class="answer">
+                        <strong>Answer:</strong> Black-box testing excels at finding: incorrect/missing functions, usability issues, interface errors, initialization/termination problems, and errors in external data access.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q5')">
+                    <strong>Q5: How does decision table testing help with complex business rules?</strong>
+                    <div id="q5" class="answer">
+                        <strong>Answer:</strong> Decision tables systematically map all possible combinations of conditions to their expected actions, ensuring complete coverage of complex rules and making it clear which test cases are needed for each scenario.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q6')">
+                    <strong>Q6: Why test boundary values if you've already tested equivalence partitions?</strong>
+                    <div id="q6" class="answer">
+                        <strong>Answer:</strong> Boundary values are particularly error-prone areas where behavior often changes (e.g., due to off-by-one errors). Testing them specifically increases the chance of finding defects that might be missed by testing only middle values of partitions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAnswer(questionId) {
+            const answer = document.getElementById(questionId);
+            answer.classList.toggle('show');
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
