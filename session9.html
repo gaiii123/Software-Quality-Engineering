@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Automation Tools - Katalon Studio & Beyond</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .example-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        
+        .tool-card {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            background: #e9ecef;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        .katalon-feature {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .process-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .process-step {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px;
+            position: relative;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            color: #667eea;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-step::after {
+                content: '↓';
+                right: 50%;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ Test Automation Tools</h1>
+            <p>Mastering Katalon Studio and Other Automation Solutions</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('intro')">Introduction</button>
+            <button class="tab-button" onclick="showTab('katalon')">Katalon Studio</button>
+            <button class="tab-button" onclick="showTab('tools')">Other Tools</button>
+            <button class="tab-button" onclick="showTab('examples')">Examples</button>
+            <button class="tab-button" onclick="showTab('quiz')">Quiz</button>
+        </div>
+        
+        <!-- Introduction Section -->
+        <div id="intro" class="content-section active">
+            <h2>🚀 Introduction to Test Automation Tools</h2>
+            
+            <div class="concept-card">
+                <h3>What is Automation Testing?</h3>
+                <p>Automation testing is a method of verifying software using specialized tools and frameworks to execute test cases, compare actual outcomes with expected results, and generate detailed reports with minimal human intervention.</p>
+            </div>
+            
+            <div class="concept-card">
+                <h4>Key Characteristics of Automation Tools:</h4>
+                <ul>
+                    <li><strong>Scripting Capabilities:</strong> Allow testers to write and execute test scripts</li>
+                    <li><strong>Test Management:</strong> Organize and manage test cases and suites</li>
+                    <li><strong>Reporting:</strong> Generate detailed test execution reports</li>
+                    <li><strong>Integration:</strong> Work with CI/CD pipelines and other tools</li>
+                    <li><strong>Cross-Platform Support:</strong> Test across different environments</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Benefits of Using Automation Tools</h3>
+                <div class="example-box">
+                    <strong>Advantages:</strong>
+                    <ul>
+                        <li><strong>Efficiency:</strong> Run tests faster than manual execution</li>
+                        <li><strong>Coverage:</strong> Execute thousands of test cases in a single run</li>
+                        <li><strong>Accuracy:</strong> Eliminate human errors in repetitive tasks</li>
+                        <li><strong>Reusability:</strong> Test scripts can be reused across versions</li>
+                        <li><strong>Cost-Effective:</strong> Reduce long-term testing costs</li>
+                        <li><strong>Continuous Testing:</strong> Enable CI/CD pipeline integration</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 When to Use Automation Tools?</h4>
+                <ul>
+                    <li>Regression testing</li>
+                    <li>Data-driven testing</li>
+                    <li>Performance testing</li>
+                    <li>Repeated execution cycles</li>
+                    <li>Complex calculations</li>
+                    <li>Multi-platform testing</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Katalon Studio Section -->
+        <div id="katalon" class="content-section">
+            <h2>🌟 Katalon Studio - Comprehensive Guide</h2>
+            
+            <div class="concept-card">
+                <h3>What is Katalon Studio?</h3>
+                <p>Katalon Studio is a powerful all-in-one test automation solution for web, API, mobile, and desktop application testing. It provides a comprehensive ecosystem for quality assurance teams with both script and scriptless approaches.</p>
+            </div>
+            
+            <div class="katalon-feature">
+                <h4>Key Features of Katalon Studio</h4>
+                <div class="example-box">
+                    <strong>1. Cross-Platform Testing:</strong>
+                    <ul>
+                        <li>Web applications (Chrome, Firefox, Edge, Safari)</li>
+                        <li>Mobile apps (Android and iOS)</li>
+                        <li>API/Web services</li>
+                        <li>Windows desktop applications</li>
+                    </ul>
+                    
+                    <strong>2. Dual-Scripting Interface:</strong>
+                    <ul>
+                        <li>Record-and-playback for beginners</li>
+                        <li>Manual scripting in Groovy/Java for advanced users</li>
+                    </ul>
+                    
+                    <strong>3. Built-in Keywords:</strong>
+                    <ul>
+                        <li>300+ ready-to-use keywords for common actions</li>
+                        <li>Custom keyword creation capability</li>
+                    </ul>
+                    
+                    <strong>4. Integration Ecosystem:</strong>
+                    <ul>
+                        <li>CI/CD tools (Jenkins, Azure DevOps, CircleCI)</li>
+                        <li>Test management (Jira, qTest, TestRail)</li>
+                        <li>Cloud testing (Kobiton, BrowserStack, Sauce Labs)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Katalon Studio Architecture</h3>
+                <div class="example-box">
+                    <strong>Main Components:</strong>
+                    <ol>
+                        <li><strong>Test Case:</strong> Contains test steps and logic</li>
+                        <li><strong>Test Object:</strong> Repository for UI elements</li>
+                        <li><strong>Test Suite:</strong> Collection of test cases</li>
+                        <li><strong>Test Suite Collection:</strong> Group of test suites</li>
+                        <li><strong>Reports:</strong> Detailed execution results</li>
+                        <li><strong>Profiles:</strong> Environment configurations</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Getting Started with Katalon Studio</h3>
+                <div class="example-box">
+                    <strong>Installation Steps:</strong>
+                    <ol>
+                        <li>Download from <a href="https://katalon.com/" target="_blank">katalon.com</a></li>
+                        <li>Run the installer (Windows/macOS/Linux)</li>
+                        <li>Launch and activate with your account</li>
+                        <li>Create a new project</li>
+                        <li>Choose project type (Web, API, Mobile, Desktop)</li>
+                    </ol>
+                    
+                    <strong>System Requirements:</strong>
+                    <ul>
+                        <li>Windows 7/8/10, macOS 10.13+, or Linux</li>
+                        <li>Minimum 4GB RAM (8GB recommended)</li>
+                        <li>Java JDK 8+ installed</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">Create Project</div>
+                <div class="process-step">Define Objects</div>
+                <div class="process-step">Record Test</div>
+                <div class="process-step">Enhance Script</div>
+                <div class="process-step">Execute</div>
+                <div class="process-step">Analyze</div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Katalon Studio Best Practices</h4>
+                <ul>
+                    <li>Use the Object Repository for maintainable element locators</li>
+                    <li>Create custom keywords for reusable functions</li>
+                    <li>Implement data-driven testing with Excel/CSV files</li>
+                    <li>Use profiles for different environments</li>
+                    <li>Schedule execution via command line for CI integration</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Other Tools Section -->
+        <div id="tools" class="content-section">
+            <h2>🛠️ Other Popular Automation Tools</h2>
+            
+            <div class="concept-card">
+                <h3>Tool Selection Criteria</h3>
+                <p>Consider these factors when choosing an automation tool:</p>
+                <ul>
+                    <li>Application type (Web, Mobile, Desktop, API)</li>
+                    <li>Programming language support</li>
+                    <li>Learning curve and team skills</li>
+                    <li>Budget and licensing costs</li>
+                    <li>Community support and documentation</li>
+                    <li>Integration capabilities</li>
+                </ul>
+            </div>
+            
+            <h3>Top Automation Testing Tools</h3>
+            
+            <div class="tool-card">
+                <h4>1. Selenium WebDriver</h4>
+                <p><strong>Best for:</strong> Web application testing</p>
+                <div class="example-box">
+                    <strong>Key Features:</strong>
+                    <ul>
+                        <li>Open-source and free</li>
+                        <li>Supports multiple languages (Java, Python, C#, etc.)</li>
+                        <li>Cross-browser testing capability</li>
+                        <li>Large community and ecosystem</li>
+                    </ul>
+                    <strong>Example Use:</strong> Automating e-commerce website regression tests
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <h4>2. Postman</h4>
+                <p><strong>Best for:</strong> API testing</p>
+                <div class="example-box">
+                    <strong>Key Features:</strong>
+                    <ul>
+                        <li>Easy API request building</li>
+                        <li>Automated testing with JavaScript</li>
+                        <li>Collection runner for test suites</li>
+                        <li>Mock server capabilities</li>
+                    </ul>
+                    <strong>Example Use:</strong> Testing RESTful microservices
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <h4>3. Appium</h4>
+                <p><strong>Best for:</strong> Mobile application testing</p>
+                <div class="example-box">
+                    <strong>Key Features:</strong>
+                    <ul>
+                        <li>Cross-platform (iOS and Android)</li>
+                        <li>Supports native, hybrid and web apps</li>
+                        <li>Uses WebDriver protocol</li>
+                        <li>Open-source with large community</li>
+                    </ul>
+                    <strong>Example Use:</strong> Testing mobile banking apps
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <h4>4. TestComplete</h4>
+                <p><strong>Best for:</strong> Desktop and web testing</p>
+                <div class="example-box">
+                    <strong>Key Features:</strong>
+                    <ul>
+                        <li>Record-and-playback functionality</li>
+                        <li>Object recognition engine</li>
+                        <li>Supports multiple scripting languages</li>
+                        <li>AI-powered visual testing</li>
+                    </ul>
+                    <strong>Example Use:</strong> Testing Windows desktop applications
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <h4>5. SoapUI</h4>
+                <p><strong>Best for:</strong> API and SOAP web services testing</p>
+                <div class="example-box">
+                    <strong>Key Features:</strong>
+                    <ul>
+                        <li>Specialized for API testing</li>
+                        <li>Supports REST and SOAP</li>
+                        <li>Load testing capabilities</li>
+                        <li>Scripting with Groovy</li>
+                    </ul>
+                    <strong>Example Use:</strong> Testing complex enterprise APIs
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Tool Comparison</h4>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Tool</th>
+                        <th>Type</th>
+                        <th>Learning Curve</th>
+                        <th>Cost</th>
+                    </tr>
+                    <tr>
+                        <td>Katalon Studio</td>
+                        <td>Web, API, Mobile</td>
+                        <td>Moderate</td>
+                        <td>Free/Paid plans</td>
+                    </tr>
+                    <tr>
+                        <td>Selenium</td>
+                        <td>Web</td>
+                        <td>Steep</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td>Postman</td>
+                        <td>API</td>
+                        <td>Easy</td>
+                        <td>Free/Paid</td>
+                    </tr>
+                    <tr>
+                        <td>Appium</td>
+                        <td>Mobile</td>
+                        <td>Moderate</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td>TestComplete</td>
+                        <td>Desktop/Web</td>
+                        <td>Moderate</td>
+                        <td>Paid</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Examples Section -->
+        <div id="examples" class="content-section">
+            <h2>💻 Practical Automation Examples</h2>
+            
+            <div class="concept-card">
+                <h3>Katalon Studio Web Test Example</h3>
+                <p>Testing login functionality on a web application:</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>Katalon Script (Groovy)</h4>
+                <pre>
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
+
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
+// Open browser and navigate to application
+WebUI.openBrowser('https://example.com/login')
+
+// Maximize window
+WebUI.maximizeWindow()
+
+// Enter username
+WebUI.setText(findTestObject('Page_Login/txt_Username'), 'testuser')
+
+// Enter password
+WebUI.setText(findTestObject('Page_Login/txt_Password'), 'password123')
+
+// Click login button
+WebUI.click(findTestObject('Page_Login/btn_Login'))
+
+// Verify login success
+WebUI.verifyElementPresent(findTestObject('Page_Dashboard/lbl_Welcome'), 10)
+
+// Close browser
+WebUI.closeBrowser()</pre>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Katalon API Test Example</h3>
+                <p>Testing a REST API endpoint:</p>
+            </div>
+            
+            <div class="code-example">
+                <h4>Katalon API Test Script</h4>
+                <pre>
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
+
+import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
+
+// Send GET request
+response = WS.sendRequest(findTestObject('API/Get_User_Details', ['user_id': 123]))
+
+// Verify status code
+WS.verifyResponseStatusCode(response, 200)
+
+// Verify response time
+WS.verifyResponseStatusCodeInRange(response, 200, 299)
+
+// Verify response contains expected fields
+WS.verifyElementPropertyValue(response, 'username', 'testuser')
+WS.verifyElementPropertyValue(response, 'email', 'test@example.com')</pre>
+            </div>
+            
+            <div class="concept-card">
+                <h3>Selenium vs Katalon Comparison</h3>
+                <div class="example-box">
+                    <strong>Same test in Selenium WebDriver (Java):</strong>
+                    <div class="code-example">
+                        <pre>
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class LoginTest {
+    public static void main(String[] args) {
+        // Set ChromeDriver path
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+        
+        // Initialize WebDriver
+        WebDriver driver = new ChromeDriver();
+        
+        try {
+            // Navigate to application
+            driver.get("https://example.com/login");
+            
+            // Enter credentials and login
+            driver.findElement(By.id("username")).sendKeys("testuser");
+            driver.findElement(By.id("password")).sendKeys("password123");
+            driver.findElement(By.id("login-btn")).click();
+            
+            // Verify login success
+            Assert.assertTrue(driver.findElement(By.id("welcome")).isDisplayed());
+            
+        } finally {
+            // Close browser
+            driver.quit();
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h4>💡 Katalon Advantages Over Pure Selenium</h4>
+                <ul>
+                    <li>Built-in object repository for element management</li>
+                    <li>No need to write boilerplate code</li>
+                    <li>Integrated reporting</li>
+                    <li>Record-and-playback capability</li>
+                    <li>Built-in keywords for common actions</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Test Automation Tools Quiz</h2>
+            
+            <div class="quiz-section">
+                <h3>Test Your Knowledge:</h3>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q1')">
+                    <strong>Q1: What are the main types of testing supported by Katalon Studio?</strong>
+                    <div id="q1" class="answer">
+                        <strong>Answer:</strong> Katalon Studio supports web, API, mobile, and desktop application testing.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q2')">
+                    <strong>Q2: What programming language is used for scripting in Katalon Studio?</strong>
+                    <div id="q2" class="answer">
+                        <strong>Answer:</strong> Katalon Studio uses Groovy (a Java-compatible language) for scripting.
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q3')">
+                    <strong>Q3: What are three advantages of Katalon Studio over pure Selenium?</strong>
+                    <div id="q3" class="answer">
+                        <strong>Answer:</strong> Three advantages are:
+                        <ul>
+                            <li>Built-in object repository</li>
+                            <li>Integrated reporting</li>
+                            <li>Record-and-playback capability</li>
+                            <li>Built-in keywords for common actions</li>
+                            <li>No need to write boilerplate code</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q4')">
+                    <strong>Q4: What are some key features of Postman for API testing?</strong>
+                    <div id="q4" class="answer">
+                        <strong>Answer:</strong> Key features include:
+                        <ul>
+                            <li>Easy API request building</li>
+                            <li>Automated testing with JavaScript</li>
+                            <li>Collection runner for test suites</li>
+                            <li>Mock server capabilities</li>
+                            <li>Environment variables</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q5')">
+                    <strong>Q5: What factors should you consider when selecting an automation tool?</strong>
+                    <div id="q5" class="answer">
+                        <strong>Answer:</strong> Consider:
+                        <ul>
+                            <li>Application type (Web, Mobile, Desktop, API)</li>
+                            <li>Programming language support</li>
+                            <li>Learning curve and team skills</li>
+                            <li>Budget and licensing costs</li>
+                            <li>Community support and documentation</li>
+                            <li>Integration capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quiz-question" onclick="toggleAnswer('q6')">
+                    <strong>Q6: What are the steps to create a basic web test in Katalon Studio?</strong>
+                    <div id="q6" class="answer">
+                        <strong>Answer:</strong> Basic steps:
+                        <ol>
+                            <li>Create a new web test project</li>
+                            <li>Define test objects in the Object Repository</li>
+                            <li>Create a new test case</li>
+                            <li>Add test steps (record or manually add)</li>
+                            <li>Add verification steps</li>
+                            <li>Run the test case</li>
+                            <li>Review the test report</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAnswer(questionId) {
+            const answer = document.getElementById(questionId);
+            answer.classList.toggle('show');
+        }
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>

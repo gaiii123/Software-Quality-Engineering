@@ -1,0 +1,483 @@
+<div class="case-studies-section">
+    <h2>🔍 Case Studies in Software Quality Engineering</h2>
+    
+    <div class="case-study">
+        <h3>Case Study 1: Banking System Failure</h3>
+        <div class="scenario">
+            <h4>Scenario:</h4>
+            <p>A major bank's online system failed during peak hours, causing:</p>
+            <ul>
+                <li>Incorrect interest calculations for 12,000 accounts</li>
+                <li>Double deductions from 3,500 customer accounts</li>
+                <li>System outage for 4 hours during business day</li>
+            </ul>
+            <p>Post-mortem analysis revealed:</p>
+            <ol>
+                <li>No load testing was performed before deployment</li>
+                <li>Regression test suite hadn't been updated for 6 months</li>
+                <li>Critical bug fixes were deployed without proper review</li>
+            </ol>
+        </div>
+        
+        <div class="questions">
+            <div class="question">
+                <h4>Q1. What testing types were neglected in this scenario?</h4>
+                <div class="answer">
+                    <ol>
+                        <li><strong>Performance/Load Testing:</strong> To verify system behavior under peak loads</li>
+                        <li><strong>Regression Testing:</strong> To ensure new changes didn't break existing functionality</li>
+                        <li><strong>Code Review:</strong> To catch defects before deployment</li>
+                        <li><strong>Integration Testing:</strong> To verify interactions between components</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h4>Q2. How could test automation have helped prevent this failure?</h4>
+                <div class="answer">
+                    <ul>
+                        <li><strong>Automated Regression Suite:</strong> Would have caught the double deduction bug</li>
+                        <li><strong>CI/CD Pipeline:</strong> Automated tests would run before deployment</li>
+                        <li><strong>Load Test Automation:</strong> Would have revealed performance issues earlier</li>
+                        <li><strong>Automated Monitoring:</strong> Could have detected anomalies in production</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h4>Q3. What quality assurance processes should be implemented?</h4>
+                <div class="answer">
+                    <table class="process-table">
+                        <tr>
+                            <th>Process</th>
+                            <th>Implementation</th>
+                            <th>Benefit</th>
+                        </tr>
+                        <tr>
+                            <td>Shift-Left Testing</td>
+                            <td>Test early in development cycle</td>
+                            <td>Find defects sooner when cheaper to fix</td>
+                        </tr>
+                        <tr>
+                            <td>Test Environment Management</td>
+                            <td>Staging environment matching production</td>
+                            <td>More accurate test results</td>
+                        </tr>
+                        <tr>
+                            <td>Change Control Board</td>
+                            <td>Formal review of all production changes</td>
+                            <td>Prevents risky deployments</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="case-study">
+        <h3>Case Study 2: E-Commerce Checkout Defects</h3>
+        <div class="scenario">
+            <h4>Scenario:</h4>
+            <p>An e-commerce platform experienced these issues during holiday season:</p>
+            <ul>
+                <li>15% cart abandonment rate due to checkout errors</li>
+                <li>Incorrect tax calculations for international orders</li>
+                <li>Payment processing failures with specific credit cards</li>
+            </ul>
+            <p>Analysis showed:</p>
+            <ol>
+                <li>No test cases for international tax scenarios</li>
+                <li>Payment gateway API changes weren't tested</li>
+                <li>Checkout process wasn't tested on mobile devices</li>
+            </ol>
+        </div>
+        
+        <div class="questions">
+            <div class="question">
+                <h4>Q1. What black box testing techniques should have been used?</h4>
+                <div class="answer">
+                    <ul>
+                        <li><strong>Equivalence Partitioning:</strong> Group countries by tax rules</li>
+                        <li><strong>Boundary Value Analysis:</strong> Test minimum/maximum order values</li>
+                        <li><strong>Decision Table Testing:</strong> Test all credit card type combinations</li>
+                        <li><strong>State Transition Testing:</strong> Test checkout workflow states</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h4>Q2. Design test cases for the international tax calculation</h4>
+                <div class="answer">
+                    <table class="test-cases">
+                        <tr>
+                            <th>Test Case</th>
+                            <th>Country</th>
+                            <th>Order Value</th>
+                            <th>Expected Tax</th>
+                        </tr>
+                        <tr>
+                            <td>TC1</td>
+                            <td>USA (CA)</td>
+                            <td>$100</td>
+                            <td>$8.25 (CA tax)</td>
+                        </tr>
+                        <tr>
+                            <td>TC2</td>
+                            <td>UK</td>
+                            <td>£100</td>
+                            <td>£20 (VAT)</td>
+                        </tr>
+                        <tr>
+                            <td>TC3</td>
+                            <td>Australia</td>
+                            <td>A$100</td>
+                            <td>A$10 (GST)</td>
+                        </tr>
+                        <tr>
+                            <td>TC4</td>
+                            <td>Japan</td>
+                            <td>¥10,000</td>
+                            <td>¥800 (8% consumption tax)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h4>Q3. How would you implement automation for this scenario?</h4>
+                <div class="answer">
+                    <div class="automation-plan">
+                        <p><strong>Test Automation Framework Components:</strong></p>
+                        <ol>
+                            <li><strong>Data-Driven Approach:</strong> Store test data in CSV/Excel with country, order value, expected tax</li>
+                            <li><strong>Page Object Model:</strong> For maintainable checkout page elements</li>
+                            <li><strong>API Testing:</strong> Verify tax service calculations independently</li>
+                            <li><strong>Cross-Browser Testing:</strong> Execute on Chrome, Firefox, Safari</li>
+                            <li><strong>Mobile Testing:</strong> Appium for native app, BrowserStack for mobile web</li>
+                        </ol>
+                        <p><strong>Sample Katalon Studio Test Script:</strong></p>
+                        <pre>
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
+// Read test data from Excel
+def testData = findTestData('TaxCalculationData')
+def rowCount = testData.getRowNumbers()
+
+for (def index = 1; index <= rowCount; index++) {
+    // Navigate to checkout
+    WebUI.navigateToUrl(testData.getValue('URL', index))
+    
+    // Enter order details
+    WebUI.selectOptionByValue(findTestObject('Dropdown_Country'), 
+        testData.getValue('CountryCode', index), true)
+    WebUI.setText(findTestObject('Input_OrderValue'), 
+        testData.getValue('OrderValue', index))
+    
+    // Verify tax calculation
+    def actualTax = WebUI.getText(findTestObject('Label_TaxAmount'))
+    WebUI.verifyEqual(actualTax, testData.getValue('ExpectedTax', index))
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="case-study">
+        <h3>Case Study 3: Healthcare System Validation</h3>
+        <div class="scenario">
+            <h4>Scenario:</h4>
+            <p>A hospital management system failed validation with these critical issues:</p>
+            <ul>
+                <li>Patient records showed incorrect medication histories</li>
+                <li>Doctors couldn't access recent lab results during emergencies</li>
+                <li>System became unresponsive when 50+ users logged in</li>
+            </ul>
+            <p>Root cause analysis identified:</p>
+            <ol>
+                <li>No formal requirements for data synchronization</li>
+                <li>Inadequate database indexing</li>
+                <li>No stress testing performed</li>
+                <li>Incomplete validation of HL7 interfaces</li>
+            </ol>
+        </div>
+        
+        <div class="questions">
+            <div class="question">
+                <h4>Q1. What verification and validation activities were missing?</h4>
+                <div class="answer">
+                    <table class="vv-table">
+                        <tr>
+                            <th>Activity</th>
+                            <th>Type</th>
+                            <th>Impact</th>
+                        </tr>
+                        <tr>
+                            <td>Requirements Review</td>
+                            <td>Verification</td>
+                            <td>Would have caught missing sync requirements</td>
+                        </tr>
+                        <tr>
+                            <td>Interface Testing</td>
+                            <td>Validation</td>
+                            <td>Would have revealed HL7 integration issues</td>
+                        </tr>
+                        <tr>
+                            <td>Performance Testing</td>
+                            <td>Validation</td>
+                            <td>Would have identified concurrency problems</td>
+                        </tr>
+                        <tr>
+                            <td>Data Migration Testing</td>
+                            <td>Validation</td>
+                            <td>Would have verified record accuracy</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h4>Q2. Develop a test strategy for the medication history feature</h4>
+                <div class="answer">
+                    <div class="test-strategy">
+                        <p><strong>Test Approach:</strong></p>
+                        <ol>
+                            <li><strong>Unit Testing:</strong> Verify medication calculation algorithms</li>
+                            <li><strong>Integration Testing:</strong> Test pharmacy-lab-EHR interfaces</li>
+                            <li><strong>Data Validation:</strong> 
+                                <ul>
+                                    <li>Check for drug interaction conflicts</li>
+                                    <li>Verify dosage calculations</li>
+                                    <li>Validate against patient allergies</li>
+                                </ul>
+                            </li>
+                            <li><strong>User Acceptance Testing:</strong> 
+                                <ul>
+                                    <li>Doctor workflow validation</li>
+                                    <li>Nurse medication administration checks</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        
+                        <p><strong>Test Cases for Medication History:</strong></p>
+                        <table>
+                            <tr>
+                                <th>TC#</th>
+                                <th>Scenario</th>
+                                <th>Validation Point</th>
+                            </tr>
+                            <tr>
+                                <td>MH01</td>
+                                <td>Patient with 10+ medications</td>
+                                <td>Verify all display correctly in timeline</td>
+                            </tr>
+                            <tr>
+                                <td>MH02</td>
+                                <td>Change from IV to oral medication</td>
+                                <td>Verify proper transition recording</td>
+                            </tr>
+                            <tr>
+                                <td>MH03</td>
+                                <td>Discontinued medication</td>
+                                <td>Verify marked as discontinued with reason</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h4>Q3. How would you measure test coverage for this critical system?</h4>
+                <div class="answer">
+                    <div class="coverage-metrics">
+                        <p><strong>Coverage Metrics:</strong></p>
+                        <ol>
+                            <li><strong>Requirements Coverage:</strong> 
+                                <ul>
+                                    <li>Traceability matrix linking tests to requirements</li>
+                                    <li>Goal: 100% of critical requirements verified</li>
+                                </ul>
+                            </li>
+                            <li><strong>Code Coverage:</strong>
+                                <ul>
+                                    <li>Statement coverage ≥ 90% for critical modules</li>
+                                    <li>Branch coverage ≥ 80% for decision logic</li>
+                                </ul>
+                            </li>
+                            <li><strong>Workflow Coverage:</strong>
+                                <ul>
+                                    <li>All clinical pathways tested (e.g., admission → diagnosis → treatment)</li>
+                                    <li>Emergency override scenarios validated</li>
+                                </ul>
+                            </li>
+                            <li><strong>Compliance Coverage:</strong>
+                                <ul>
+                                    <li>HIPAA security requirements verified</li>
+                                    <li>FDA 21 CFR Part 11 validation for electronic records</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        
+                        <p><strong>Sample Coverage Report:</strong></p>
+                        <table>
+                            <tr>
+                                <th>Component</th>
+                                <th>Requirement Coverage</th>
+                                <th>Code Coverage</th>
+                                <th>Workflow Coverage</th>
+                            </tr>
+                            <tr>
+                                <td>Medication Module</td>
+                                <td>95% (38/40 requirements)</td>
+                                <td>92% statements</td>
+                                <td>All 12 clinical pathways</td>
+                            </tr>
+                            <tr>
+                                <td>Lab Interface</td>
+                                <td>100% (15/15)</td>
+                                <td>88% statements</td>
+                                <td>8 critical workflows</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.case-studies-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin: 30px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.case-study {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.scenario {
+    background: #f0f7ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2196F3;
+}
+
+.scenario h4 {
+    margin-top: 0;
+    color: #0d47a1;
+}
+
+.questions .question {
+    background: #f9f9f9;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border-left: 4px solid #4CAF50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.questions .question:hover {
+    background: #f0f0f0;
+    transform: translateX(3px);
+}
+
+.questions .question h4 {
+    margin-top: 0;
+    color: #2E7D32;
+}
+
+.answer {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: none;
+}
+
+.answer.show {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #667eea;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+}
+
+.automation-plan, .test-strategy, .coverage-metrics {
+    background: #fffaf0;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #FFA000;
+    margin: 10px 0;
+}
+
+.vv-table th {
+    background-color: #9C27B0;
+}
+
+.process-table th {
+    background-color: #3F51B5;
+}
+
+.test-cases th {
+    background-color: #009688;
+}
+
+@media (max-width: 768px) {
+    .case-studies-section {
+        padding: 15px;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    pre {
+        font-size: 12px;
+        padding: 10px;
+    }
+}
+</style>
+
+<script>
+document.querySelectorAll('.question').forEach(question => {
+    question.addEventListener('click', () => {
+        const answer = question.querySelector('.answer');
+        answer.classList.toggle('show');
+    });
+});
+</script>

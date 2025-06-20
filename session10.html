@@ -1,0 +1,306 @@
+<div class="exam-preparation">
+    <h2>📝 Exam Preparation Questions</h2>
+    
+    <div class="topic-section">
+        <h3>Session 1-2: Software Quality Fundamentals</h3>
+        
+        <div class="question">
+            <h4>1. Compare and contrast Software Quality Assurance (SQA) and Software Testing (QC)</h4>
+            <div class="answer">
+                <p><strong>SQA (Quality Assurance):</strong></p>
+                <ul>
+                    <li>Process-oriented approach</li>
+                    <li>Focuses on defect prevention</li>
+                    <li>Activities throughout SDLC</li>
+                    <li>Establishes processes and standards</li>
+                </ul>
+                <p><strong>QC (Quality Control/Testing):</strong></p>
+                <ul>
+                    <li>Product-oriented approach</li>
+                    <li>Focuses on defect identification</li>
+                    <li>Activities primarily during testing phase</li>
+                    <li>Executes tests to find deviations</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h4>2. Explain the terms failure, error, and fault with examples</h4>
+            <div class="answer">
+                <p><strong>Fault (Defect/Bug):</strong> A static defect in the code (e.g., incorrect interest calculation formula)</p>
+                <p><strong>Error:</strong> Incorrect internal state due to fault (e.g., wrong interest value calculated)</p>
+                <p><strong>Failure:</strong> Observable incorrect behavior (e.g., customer receives wrong interest amount)</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="topic-section">
+        <h3>Session 3: Earning Software Quality</h3>
+        
+        <div class="question">
+            <h4>3. List 5 key benefits of Software Quality Assurance</h4>
+            <div class="answer">
+                <ol>
+                    <li>Reduces long-term development costs</li>
+                    <li>Improves customer satisfaction</li>
+                    <li>Enhances product reliability</li>
+                    <li>Reduces maintenance efforts</li>
+                    <li>Improves team productivity</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h4>4. Explain two main features of quality code with characteristics</h4>
+            <div class="answer">
+                <p><strong>Readability:</strong></p>
+                <ul>
+                    <li>Proper naming conventions</li>
+                    <li>Consistent indentation</li>
+                    <li>Appropriate comments</li>
+                </ul>
+                <p><strong>Maintainability:</strong></p>
+                <ul>
+                    <li>Modular design</li>
+                    <li>Low coupling</li>
+                    <li>High cohesion</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="topic-section">
+        <h3>Session 4-6: Testing Techniques</h3>
+        
+        <div class="question">
+            <h4>5. Explain four black box testing techniques</h4>
+            <div class="answer">
+                <ol>
+                    <li><strong>Equivalence Partitioning:</strong> Dividing input data into valid/invalid classes</li>
+                    <li><strong>Boundary Value Analysis:</strong> Testing at the edges of input ranges</li>
+                    <li><strong>Decision Table Testing:</strong> Testing combinations of inputs and conditions</li>
+                    <li><strong>State Transition Testing:</strong> Testing behavior between different states</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h4>6. For a banking application with account balance rules, determine test cases using equivalence class testing</h4>
+            <div class="answer">
+                <p><strong>Rules:</strong></p>
+                <ul>
+                    <li>Negative balance: penalty fee</li>
+                    <li>≤ Rs.25: loss of interest</li>
+                    <li>≤ Rs.1,000: low interest</li>
+                    <li>> Rs.1,000: full interest</li>
+                    <li>> Rs.100,000: full interest + Rs.200 bonus</li>
+                </ul>
+                <p><strong>Test Cases (5):</strong></p>
+                <ol>
+                    <li>Negative balance (e.g., -Rs.500)</li>
+                    <li>Rs.25 (boundary)</li>
+                    <li>Rs.1,000 (boundary)</li>
+                    <li>Rs.5,000 (mid-range)</li>
+                    <li>Rs.100,001 (boundary)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h4>7. Explain three code coverage techniques in white box testing</h4>
+            <div class="answer">
+                <ol>
+                    <li><strong>Statement Coverage:</strong> Executes all statements at least once</li>
+                    <li><strong>Branch Coverage:</strong> Executes all decision outcomes (true/false)</li>
+                    <li><strong>Path Coverage:</strong> Executes all possible paths through the code</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class="topic-section">
+        <h3>Session 7-8: Testing Principles & Automation</h3>
+        
+        <div class="question">
+            <h4>8. Compare verification and validation in software testing</h4>
+            <div class="answer">
+                <p><strong>Verification:</strong> "Are we building the product right?" (Process-focused)</p>
+                <ul>
+                    <li>Reviews, walkthroughs, inspections</li>
+                    <li>Checks against specifications</li>
+                </ul>
+                <p><strong>Validation:</strong> "Are we building the right product?" (Product-focused)</p>
+                <ul>
+                    <li>Actual testing activities</li>
+                    <li>Checks against user needs</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h4>9. List three reasons to use test automation</h4>
+            <div class="answer">
+                <ol>
+                    <li>To execute repetitive regression tests efficiently</li>
+                    <li>To perform tests that are difficult to do manually (e.g., performance testing)</li>
+                    <li>To enable continuous testing in CI/CD pipelines</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class="topic-section">
+        <h3>Session 9-10: Tools & Advanced Topics</h3>
+        
+        <div class="question">
+            <h4>10. Compare Selenium and Katalon Studio as test automation tools</h4>
+            <div class="answer">
+                <p><strong>Selenium:</strong></p>
+                <ul>
+                    <li>Open-source, free</li>
+                    <li>Requires programming knowledge</li>
+                    <li>Web testing only</li>
+                    <li>Needs additional tools for reporting</li>
+                </ul>
+                <p><strong>Katalon Studio:</strong></p>
+                <ul>
+                    <li>Free/paid versions</li>
+                    <li>Supports record-and-playback</li>
+                    <li>Web, API, mobile testing</li>
+                    <li>Built-in reporting</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h4>11. What types of testing can be performed using Postman?</h4>
+            <div class="answer">
+                <ol>
+                    <li>Functional API testing</li>
+                    <li>Regression testing</li>
+                    <li>Integration testing</li>
+                    <li>Performance testing (with Newman)</li>
+                    <li>Mock service testing</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class="coding-section">
+        <h3>Practical Coding Questions</h3>
+        
+        <div class="question">
+            <h4>12. Write pseudocode for Bubble Sort algorithm</h4>
+            <div class="answer">
+                <pre>
+procedure bubbleSort(A : list of sortable items)
+    n = length(A)
+    repeat
+        swapped = false
+        for i = 1 to n-1 inclusive do
+            if A[i-1] > A[i] then
+                swap(A[i-1], A[i])
+                swapped = true
+            end if
+        end for
+        n = n - 1
+    until not swapped
+end procedure</pre>
+            </div>
+        </div>
+        
+        <div class="question">
+            <h4>13. Calculate Cyclomatic Complexity for the Bubble Sort code</h4>
+            <div class="answer">
+                <p><strong>Formula:</strong> V(G) = E - N + 2P</p>
+                <p>Where E = edges, N = nodes, P = connected components</p>
+                <p>For the bubble sort:</p>
+                <ul>
+                    <li>Decision points: 1 (if condition)</li>
+                    <li>V(G) = 1 (if) + 1 (repeat) = 2</li>
+                    <li>Cyclomatic Complexity = 2</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.exam-preparation {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.topic-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.question {
+    background: #f9f9f9;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.question h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.answer {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: none;
+}
+
+.answer.show {
+    display: block;
+}
+
+.coding-section pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+/* Interactive elements */
+.question {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.question:hover {
+    background: #f0f0f0;
+    transform: translateX(3px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .exam-preparation {
+        padding: 15px;
+    }
+    
+    .question {
+        padding: 10px;
+    }
+}
+</style>
+
+<script>
+document.querySelectorAll('.question').forEach(question => {
+    question.addEventListener('click', () => {
+        const answer = question.querySelector('.answer');
+        answer.classList.toggle('show');
+    });
+});
+</script>

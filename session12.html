@@ -1,0 +1,398 @@
+<div class="gtn-qa-section">
+    <h2>🏢 GTN Technologies QA Process Analysis</h2>
+    
+    <div class="resources">
+        <h3>Reference Presentations:</h3>
+        <ul>
+            <li><a href="https://gamma.app/docs/QA-Process-Overview-GTN-Technologies-8dyyt6d66j5dc7k" target="_blank">QA Process Overview - GTN Technologies</a></li>
+            <li><a href="https://gamma.app/docs/Quality-Analysis-in-GTN-Technologies-ekeu4mo4wf881v0" target="_blank">Quality Analysis in GTN Technologies</a></li>
+        </ul>
+    </div>
+
+    <div class="process-section">
+        <h3>1. GTN's QA Process Explained</h3>
+        <div class="process-flow">
+            <div class="phase">
+                <h4>Requirement Analysis</h4>
+                <ul>
+                    <li>Review user stories and acceptance criteria</li>
+                    <li>Identify testable requirements</li>
+                    <li>Create requirement traceability matrix</li>
+                </ul>
+            </div>
+            <div class="connector">→</div>
+            <div class="phase">
+                <h4>Test Planning</h4>
+                <ul>
+                    <li>Define test strategy and scope</li>
+                    <li>Select testing tools (Playwright, etc.)</li>
+                    <li>Estimate effort and resources</li>
+                </ul>
+            </div>
+            <div class="connector">→</div>
+            <div class="phase">
+                <h4>Test Design</h4>
+                <ul>
+                    <li>Create test cases and automation scripts</li>
+                    <li>Prepare test data</li>
+                    <li>Set up test environment</li>
+                </ul>
+            </div>
+            <div class="connector">→</div>
+            <div class="phase">
+                <h4>Test Execution</h4>
+                <ul>
+                    <li>Run manual and automated tests</li>
+                    <li>Log defects and track resolution</li>
+                    <li>Conduct regression testing</li>
+                </ul>
+            </div>
+            <div class="connector">→</div>
+            <div class="phase">
+                <h4>Reporting</h4>
+                <ul>
+                    <li>Generate test metrics and reports</li>
+                    <li>Conduct test closure activities</li>
+                    <li>Share lessons learned</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tool-details">
+            <h4>Playwright Implementation at GTN</h4>
+            <div class="comparison">
+                <div class="pros">
+                    <h5>Why GTN Chose Playwright:</h5>
+                    <ul>
+                        <li>Cross-browser testing (Chromium, WebKit, Firefox)</li>
+                        <li>Auto-waiting and web-first assertions</li>
+                        <li>Single API for JavaScript/TypeScript</li>
+                        <li>Parallel test execution capability</li>
+                        <li>Excellent debugging tools</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h5>Challenges Faced:</h5>
+                    <ul>
+                        <li>Learning curve for non-JavaScript developers</li>
+                        <li>Mobile testing limitations</li>
+                        <li>Newer tool with smaller community than Selenium</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-cases-section">
+        <h3>2. Sample Test Cases for GTN's Web Application</h3>
+        
+        <div class="test-case-type">
+            <h4>Authentication Module</h4>
+            <table class="test-cases">
+                <tr>
+                    <th>TC ID</th>
+                    <th>Description</th>
+                    <th>Test Steps</th>
+                    <th>Expected Result</th>
+                    <th>Playwright Implementation</th>
+                </tr>
+                <tr>
+                    <td>AUTH-01</td>
+                    <td>Successful login with valid credentials</td>
+                    <td>
+                        <ol>
+                            <li>Navigate to login page</li>
+                            <li>Enter valid username/password</li>
+                            <li>Click login button</li>
+                        </ol>
+                    </td>
+                    <td>User is redirected to dashboard</td>
+                    <td>
+                        <pre>test('Successful login', async ({ page }) => {
+  await page.goto('/login');
+  await page.fill('#username', 'validUser');
+  await page.fill('#password', 'validPass');
+  await page.click('#login-btn');
+  await expect(page).toHaveURL('/dashboard');
+});</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>AUTH-02</td>
+                    <td>Login attempt with invalid password</td>
+                    <td>
+                        <ol>
+                            <li>Navigate to login page</li>
+                            <li>Enter valid username</li>
+                            <li>Enter invalid password</li>
+                            <li>Click login button</li>
+                        </ol>
+                    </td>
+                    <td>Error message displayed</td>
+                    <td>
+                        <pre>test('Invalid password', async ({ page }) => {
+  await page.goto('/login');
+  await page.fill('#username', 'validUser');
+  await page.fill('#password', 'wrongPass');
+  await page.click('#login-btn');
+  await expect(page.locator('.error')).toHaveText('Invalid credentials');
+});</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="test-case-type">
+            <h4>E-Commerce Checkout Flow</h4>
+            <table class="test-cases">
+                <tr>
+                    <th>TC ID</th>
+                    <th>Description</th>
+                    <th>Test Steps</th>
+                    <th>Expected Result</th>
+                    <th>Playwright Implementation</th>
+                </tr>
+                <tr>
+                    <td>CHECKOUT-01</td>
+                    <td>Complete checkout as guest user</td>
+                    <td>
+                        <ol>
+                            <li>Add product to cart</li>
+                            <li>Proceed to checkout</li>
+                            <li>Select guest checkout</li>
+                            <li>Enter shipping/billing info</li>
+                            <li>Complete payment</li>
+                        </ol>
+                    </td>
+                    <td>Order confirmation page displayed</td>
+                    <td>
+                        <pre>test('Guest checkout', async ({ page }) => {
+  await addToCart(page, 'product123');
+  await checkoutAsGuest(page, guestData);
+  await expect(page).toHaveURL('/order-confirmation');
+});</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="qa-boundaries">
+        <h3>3. Defining QA Boundaries at GTN</h3>
+        
+        <div class="boundary-area">
+            <h4>In Scope for QA Team</h4>
+            <ul>
+                <li><strong>Functional Testing:</strong> All business requirements validation</li>
+                <li><strong>UI Testing:</strong> Cross-browser and responsive testing</li>
+                <li><strong>API Testing:</strong> Contract and integration testing</li>
+                <li><strong>Regression Testing:</strong> Automated test suite execution</li>
+                <li><strong>Performance Testing:</strong> Basic load testing for critical flows</li>
+            </ul>
+        </div>
+        
+        <div class="boundary-area">
+            <h4>Out of Scope for QA Team</h4>
+            <ul>
+                <li><strong>Unit Testing:</strong> Owned by development team</li>
+                <li><strong>Infrastructure Testing:</strong> Handled by DevOps</li>
+                <li><strong>Security Penetration Testing:</strong> Conducted by specialized team</li>
+                <li><strong>UX Design Validation:</strong> Owned by product designers</li>
+                <li><strong>Content Accuracy:</strong> Verified by content team</li>
+            </ul>
+        </div>
+        
+        <div class="collaboration-model">
+            <h4>QA Collaboration Model</h4>
+            <div class="process-flow">
+                <div class="phase">
+                    <h5>Product Owners</h5>
+                    <p>Provide acceptance criteria</p>
+                </div>
+                <div class="connector">↔</div>
+                <div class="phase">
+                    <h5>Developers</h5>
+                    <p>Share technical specifications</p>
+                </div>
+                <div class="connector">↔</div>
+                <div class="phase">
+                    <h5>QA Engineers</h5>
+                    <p>Design and execute tests</p>
+                </div>
+                <div class="connector">↔</div>
+                <div class="phase">
+                    <h5>DevOps</h5>
+                    <p>Manage test environments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.gtn-qa-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin: 30px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.resources {
+    background: #f0f7ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.resources a {
+    color: #1976d2;
+    text-decoration: none;
+}
+
+.resources a:hover {
+    text-decoration: underline;
+}
+
+.process-flow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.phase {
+    background: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    width: 18%;
+    min-height: 200px;
+}
+
+.connector {
+    width: 2%;
+    text-align: center;
+    padding-top: 80px;
+    font-weight: bold;
+    color: #666;
+}
+
+.tool-details {
+    margin: 25px 0;
+}
+
+.comparison {
+    display: flex;
+    gap: 20px;
+}
+
+.pros, .cons {
+    flex: 1;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.pros {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+}
+
+.cons {
+    background: #ffebee;
+    border-left: 4px solid #f44336;
+}
+
+.test-cases-section {
+    margin: 30px 0;
+}
+
+.test-cases {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.test-cases th, .test-cases td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    vertical-align: top;
+}
+
+.test-cases th {
+    background-color: #5c6bc0;
+    color: white;
+}
+
+.test-cases tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.test-cases pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 0;
+}
+
+.qa-boundaries {
+    margin-top: 30px;
+}
+
+.boundary-area {
+    background: #fff3e0;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    border-left: 4px solid #ffa726;
+}
+
+.collaboration-model .process-flow {
+    justify-content: center;
+}
+
+.collaboration-model .phase {
+    width: 22%;
+    min-height: auto;
+    text-align: center;
+}
+
+.collaboration-model .connector {
+    padding-top: 40px;
+}
+
+@media (max-width: 1200px) {
+    .phase {
+        width: 100%;
+        margin-bottom: 10px;
+        min-height: auto;
+    }
+    
+    .connector {
+        display: none;
+    }
+    
+    .comparison {
+        flex-direction: column;
+    }
+    
+    .collaboration-model .phase {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .collaboration-model .connector {
+        display: none;
+    }
+    
+    .test-cases {
+        font-size: 14px;
+    }
+    
+    .test-cases pre {
+        font-size: 10px;
+    }
+}
+</style>
