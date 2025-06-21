@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1 - Introduction to Project Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .lecturer-info {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h3 {
+            color: #4ca1af;
+            margin: 20px 0 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #2c3e50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .developer-signature {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin-top: 10px;
+            color: #bdc3c7;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #4ca1af;
+        }
+        
+        .success-criteria {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .criteria-item {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4ca1af;
+        }
+        
+        .methodology-comparison {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .methodology-comparison th, 
+        .methodology-comparison td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .methodology-comparison th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .methodology-comparison tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .lifecycle-diagram {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .lifecycle-diagram img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .certification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .certification-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid #4ca1af;
+        }
+        
+        @media (max-width: 768px) {
+            .success-criteria {
+                grid-template-columns: 1fr;
+            }
+            
+            .methodology-comparison {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Introduction to Project Management</h1>
+            <p>Session 1 - Fundamentals of Project Management</p>
+            <div class="lecturer-info">
+                Department of Industrial Management | University of Kelaniya
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="content-section">
+            <h2>What is Project Management?</h2>
+            <p>Project management is the application of knowledge, skills, tools, and techniques to project activities to meet project requirements. It involves planning, organizing, securing, managing, leading, and controlling resources to achieve specific goals.</p>
+            
+            <div class="highlight-box">
+                <h3>Key Elements of Project Management</h3>
+                <ul>
+                    <li><strong>Scope:</strong> What needs to be accomplished</li>
+                    <li><strong>Time:</strong> The schedule for completion</li>
+                    <li><strong>Cost:</strong> The budget constraints</li>
+                    <li><strong>Quality:</strong> The standards to be met</li>
+                    <li><strong>Resources:</strong> People, equipment, facilities</li>
+                    <li><strong>Risk:</strong> Potential problems and solutions</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Success Criteria</h2>
+            <p>A project is considered successful when it meets the following criteria:</p>
+            
+            <div class="success-criteria">
+                <div class="criteria-item">
+                    <h3>On Time</h3>
+                    <p>Delivered according to the agreed schedule</p>
+                </div>
+                <div class="criteria-item">
+                    <h3>On Budget</h3>
+                    <p>Completed within the allocated financial resources</p>
+                </div>
+                <div class="criteria-item">
+                    <h3>To Specification</h3>
+                    <p>Meets all technical and functional requirements</p>
+                </div>
+                <div class="criteria-item">
+                    <h3>Stakeholder Satisfaction</h3>
+                    <p>Meets or exceeds stakeholder expectations</p>
+                </div>
+            </div>
+            
+            <h3>IT Project Success Rates</h3>
+            <p>Recent studies show IT projects have improved success rates due to:</p>
+            <ul>
+                <li>Better project management tools & processes</li>
+                <li>Smaller, more manageable projects</li>
+                <li>Improved communication among stakeholders</li>
+                <li>More skilled IT project managers</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h3>Agile vs Waterfall Success Rates</h3>
+                <table class="methodology-comparison">
+                    <tr>
+                        <th>Method</th>
+                        <th>Successful</th>
+                        <th>Challenged</th>
+                        <th>Failed</th>
+                    </tr>
+                    <tr>
+                        <td>Agile</td>
+                        <td>42%</td>
+                        <td>47%</td>
+                        <td>11%</td>
+                    </tr>
+                    <tr>
+                        <td>Waterfall</td>
+                        <td>13%</td>
+                        <td>59%</td>
+                        <td>28%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Life Cycle</h2>
+            <p>The project life cycle consists of distinct phases that take a project from conception to completion:</p>
+            
+            <div class="lifecycle-diagram">
+                <!-- This would normally be an image, but represented with text for this example -->
+                <div style="background: #f0f0f0; padding: 20px; border-radius: 8px;">
+                    <h3>Project Life Cycle Phases</h3>
+                    <ol style="text-align: left; margin-left: 30%;">
+                        <li>Define project goal</li>
+                        <li>Plan project</li>
+                        <li>Execute project plan</li>
+                        <li>Close project</li>
+                        <li>Evaluate project</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <h3>Systems Development Life Cycle (SDLC)</h3>
+            <ul>
+                <li><strong>Planning:</strong> Define system requirements</li>
+                <li><strong>Analysis:</strong> Study current system and user needs</li>
+                <li><strong>Design:</strong> Create system specifications</li>
+                <li><strong>Implementation:</strong> Build and deploy the system</li>
+                <li><strong>Maintenance & Support:</strong> Ongoing system improvements</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Manager Skills</h2>
+            <p>Successful project managers possess a combination of technical and interpersonal skills:</p>
+            
+            <div class="highlight-box">
+                <h3>Essential Skills</h3>
+                <ul>
+                    <li>Excellent communication skills</li>
+                    <li>Strategic planning and organizational abilities</li>
+                    <li>Budgeting and financial management</li>
+                    <li>Conflict resolution and negotiation</li>
+                    <li>Leadership and team motivation</li>
+                    <li>Risk management</li>
+                    <li>Technical knowledge relevant to the project</li>
+                </ul>
+            </div>
+            
+            <h3>PMBOK Knowledge Areas</h3>
+            <p>The Project Management Body of Knowledge identifies key knowledge areas:</p>
+            <ol>
+                <li>Project Integration Management</li>
+                <li>Project Scope Management</li>
+                <li>Project Schedule Management</li>
+                <li>Project Cost Management</li>
+                <li>Project Quality Management</li>
+                <li>Project Resource Management</li>
+                <li>Project Communications Management</li>
+                <li>Project Risk Management</li>
+                <li>Project Procurement Management</li>
+                <li>Project Stakeholder Management</li>
+            </ol>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Management Methodologies</h2>
+            
+            <h3>PMBOK Guide (7th Edition)</h3>
+            <ul>
+                <li><strong>12 Principles:</strong> Foundational guidelines for project management</li>
+                <li><strong>8 Performance Domains:</strong> Key areas of focus</li>
+                <li><strong>Models, Methods, Artifacts:</strong> Practical tools</li>
+            </ul>
+            
+            <h3>PRINCE2 (7th Edition)</h3>
+            <ul>
+                <li><strong>7 Principles:</strong> Continued business justification, learn from experience, defined roles, manage by stages, manage by exception, focus on products, tailor to environment</li>
+                <li><strong>7 Themes:</strong> Business case, organization, quality, plans, risk, change, progress</li>
+                <li><strong>7 Processes:</strong> Starting up, initiating, directing, controlling stages, managing product delivery, managing stage boundaries, closing</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Trends in Project Management</h2>
+            <ul>
+                <li><strong>Agile Project Management:</strong> Iterative approaches gaining popularity</li>
+                <li><strong>Remote Work & Virtual Teams:</strong> Managing distributed teams</li>
+                <li><strong>AI and Automation:</strong> Tools for planning, risk management</li>
+                <li><strong>Data Analytics:</strong> Data-driven decision making</li>
+                <li><strong>Sustainability:</strong> Green project management practices</li>
+                <li><strong>Hybrid Methodologies:</strong> Combining agile and traditional approaches</li>
+                <li><strong>Emotional Intelligence:</strong> Greater focus on soft skills</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>PM Certifications</h2>
+            <p>Professional certifications validate project management knowledge and skills:</p>
+            
+            <div class="certification-grid">
+                <div class="certification-item">
+                    <h3>PMP</h3>
+                    <p>Project Management Professional - PMI</p>
+                </div>
+                <div class="certification-item">
+                    <h3>PRINCE2</h3>
+                    <p>Projects IN Controlled Environments - Axelos</p>
+                </div>
+                <div class="certification-item">
+                    <h3>CAPM</h3>
+                    <p>Certified Associate in Project Management - PMI</p>
+                </div>
+                <div class="certification-item">
+                    <h3>CSM</h3>
+                    <p>Certified ScrumMaster - Scrum Alliance</p>
+                </div>
+                <div class="certification-item">
+                    <h3>PMI-ACP</h3>
+                    <p>Agile Certified Practitioner - PMI</p>
+                </div>
+                <div class="certification-item">
+                    <h3>CompTIA Project+</h3>
+                    <p>General project management certification</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Discussion Questions</h2>
+            <ol>
+                <li>What factors contribute most to project success in your experience?</li>
+                <li>How might agile methodologies improve project outcomes compared to traditional approaches?</li>
+                <li>What skills do you think are most important for a project manager to develop?</li>
+                <li>How do you see AI impacting project management in the next 5 years?</li>
+                <li>Which project management certification would be most valuable for your career path?</li>
+            </ol>
+        </div>
+        
+        <div class="content-section">
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li>Project management is a structured approach to achieving specific goals within constraints</li>
+                <li>Success requires delivering on time, within budget, to specification, and satisfying stakeholders</li>
+                <li>Agile methods show higher success rates than traditional waterfall approaches</li>
+                <li>Effective project managers need both technical and interpersonal skills</li>
+                <li>Professional certifications can validate and enhance project management capabilities</li>
+                <li>The field is evolving with trends like agile, remote work, AI, and sustainability</li>
+            </ul>
+        </div>
+        
+        <a href="index.html" class="back-button">Back to All Sessions</a>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="developer-signature">
+                devG | gaiii123
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

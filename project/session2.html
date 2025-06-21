@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2 - Project Initiation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .lecturer-info {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #182848;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h3 {
+            color: #4b6cb7;
+            margin: 20px 0 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #4b6cb7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #182848;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .developer-signature {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin-top: 10px;
+            color: #bdc3c7;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #182848;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #4b6cb7;
+        }
+        
+        .quiz-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 8px;
+        }
+        
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-answer {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e6f7e6;
+            border-left: 4px solid #2ecc71;
+            display: none;
+        }
+        
+        .show-answer {
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .show-answer:hover {
+            background: #182848;
+        }
+        
+        .assignment-box {
+            background: #fff8e6;
+            padding: 20px;
+            border-left: 4px solid #f39c12;
+            border-radius: 0 5px 5px 0;
+            margin: 20px 0;
+        }
+        
+        .case-study {
+            background: #f9f9f9;
+            padding: 20px;
+            border-left: 4px solid #9b59b6;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #4b6cb7;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        @media (max-width: 768px) {
+            .content-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Project Initiation</h1>
+            <p>Session 2 - Establishing Project Foundations</p>
+            <div class="lecturer-info">
+                Department of Industrial Management | University of Kelaniya
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="content-section">
+            <h2>Project Life Cycle: Initiation Phase</h2>
+            <p>The initiation phase is the first stage of the project life cycle where the project is defined at a broad level. Key activities include:</p>
+            
+            <div class="highlight-box">
+                <h3>Initiation Phase Activities</h3>
+                <ol>
+                    <li><strong>Identify Scope:</strong> Determine what's included in the project</li>
+                    <li><strong>Develop Business Case:</strong> Justify why the project should be undertaken</li>
+                    <li><strong>Define Measurable Organizational Value (MOV):</strong> Establish clear success metrics</li>
+                    <li><strong>Conduct Feasibility Study:</strong> Assess practicality of the project</li>
+                    <li><strong>Develop Project Charter:</strong> Formal authorization document</li>
+                </ol>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">1. Which of the following is NOT typically part of the project initiation phase?</div>
+                <div class="quiz-options">
+                    <input type="radio" name="q1" id="q1a"> <label for="q1a">Developing detailed project schedule</label><br>
+                    <input type="radio" name="q1" id="q1b"> <label for="q1b">Creating business case</label><br>
+                    <input type="radio" name="q1" id="q1c"> <label for="q1c">Defining project scope</label><br>
+                    <input type="radio" name="q1" id="q1d"> <label for="q1d">Identifying stakeholders</label>
+                </div>
+                <button class="show-answer" onclick="showAnswer(1)">Show Answer</button>
+                <div class="quiz-answer" id="answer1">
+                    <strong>Correct Answer:</strong> Developing detailed project schedule<br>
+                    <strong>Explanation:</strong> Detailed scheduling occurs in the planning phase, not initiation. The initiation phase focuses on high-level definition and justification of the project.
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Developing the Business Case</h2>
+            <p>A business case documents the justification for undertaking a project, including costs, benefits, risks, and alternatives.</p>
+            
+            <h3>Key Components of a Business Case</h3>
+            <ul>
+                <li><strong>Business Needs:</strong> Problem or opportunity being addressed</li>
+                <li><strong>Stakeholder Identification:</strong> Who is affected by the project</li>
+                <li><strong>Scope Definition:</strong> Boundaries of the project</li>
+                <li><strong>Alternatives Analysis:</strong> Different approaches to solve the problem</li>
+                <li><strong>Feasibility Assessment:</strong> Practicality of the project</li>
+                <li><strong>Cost-Benefit Analysis:</strong> Financial justification</li>
+            </ul>
+            
+            <div class="case-study">
+                <h3>Case Study: Online Learning Platform</h3>
+                <p>A university wants to develop an online learning platform. The business case identifies:</p>
+                <ul>
+                    <li><strong>Business Need:</strong> Growing demand for remote learning options</li>
+                    <li><strong>Stakeholders:</strong> Students, faculty, IT department, administration</li>
+                    <li><strong>Alternatives:</strong> Build in-house, purchase commercial software, hybrid approach</li>
+                    <li><strong>MOV:</strong> Increase student enrollment by 15% within 2 years</li>
+                </ul>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">2. What is the primary purpose of a business case in project management?</div>
+                <div class="quiz-options">
+                    <input type="radio" name="q2" id="q2a"> <label for="q2a">To create a detailed project schedule</label><br>
+                    <input type="radio" name="q2" id="q2b"> <label for="q2b">To justify why the project should be undertaken</label><br>
+                    <input type="radio" name="q2" id="q2c"> <label for="q2c">To assign tasks to team members</label><br>
+                    <input type="radio" name="q2" id="q2d"> <label for="q2d">To document technical specifications</label>
+                </div>
+                <button class="show-answer" onclick="showAnswer(2)">Show Answer</button>
+                <div class="quiz-answer" id="answer2">
+                    <strong>Correct Answer:</strong> To justify why the project should be undertaken<br>
+                    <strong>Explanation:</strong> The business case provides the rationale for the project, including costs, benefits, and alternatives, to help decision-makers determine if the project should proceed.
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Measurable Organizational Value (MOV)</h2>
+            <p>The MOV is the project's goal that provides measurable value to the organization and serves as the primary criterion for success.</p>
+            
+            <div class="highlight-box">
+                <h3>Characteristics of a Good MOV</h3>
+                <ul>
+                    <li><strong>Measurable:</strong> Quantifiable with clear metrics</li>
+                    <li><strong>Provides Value:</strong> Benefits the organization</li>
+                    <li><strong>Agreed Upon:</strong> Stakeholder consensus</li>
+                    <li><strong>Verifiable:</strong> Can be confirmed at project completion</li>
+                    <li><strong>Strategic Alignment:</strong> Supports organizational goals</li>
+                </ul>
+            </div>
+            
+            <h3>MOV Categories</h3>
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Examples</th>
+                </tr>
+                <tr>
+                    <td>Customer</td>
+                    <td>New products, better quality, lower prices</td>
+                </tr>
+                <tr>
+                    <td>Strategic</td>
+                    <td>New markets, increased market share</td>
+                </tr>
+                <tr>
+                    <td>Financial</td>
+                    <td>Increased revenue, lower costs</td>
+                </tr>
+                <tr>
+                    <td>Operational</td>
+                    <td>More efficient processes</td>
+                </tr>
+                <tr>
+                    <td>Social</td>
+                    <td>Improved safety, cleaner environment</td>
+                </tr>
+            </table>
+            
+            <div class="assignment-box">
+                <h3>Assignment: Develop an MOV</h3>
+                <p>For each of the following scenarios, develop an appropriate MOV:</p>
+                <ol>
+                    <li>A hospital implementing a new patient records system</li>
+                    <li>A retail company launching an e-commerce website</li>
+                    <li>A university developing a student portal</li>
+                </ol>
+                <p><strong>Submission Requirements:</strong> Each MOV should be 1-2 sentences, measurable, and demonstrate clear value to the organization.</p>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Feasibility Analysis</h2>
+            <p>Feasibility studies assess whether a project is practical and worth pursuing.</p>
+            
+            <h3>Types of Feasibility</h3>
+            <ul>
+                <li><strong>Economic/Financial:</strong> Cost vs. benefits</li>
+                <li><strong>Technical:</strong> Technology and infrastructure capabilities</li>
+                <li><strong>Organizational:</strong> Staff acceptance and business impact</li>
+                <li><strong>Legal/Ethical:</strong> Compliance with laws and regulations</li>
+            </ul>
+            
+            <h3>Financial Analysis Methods</h3>
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Formula</th>
+                </tr>
+                <tr>
+                    <td>Breakeven Analysis</td>
+                    <td>Point where costs equal benefits</td>
+                    <td>Initial Investment / Net Profit Margin</td>
+                </tr>
+                <tr>
+                    <td>Return on Investment (ROI)</td>
+                    <td>Percentage return relative to cost</td>
+                    <td>(Benefits - Costs) / Costs</td>
+                </tr>
+                <tr>
+                    <td>Net Present Value (NPV)</td>
+                    <td>Present value of future cash flows</td>
+                    <td>-I₀ + Σ(Net Cash Flow/(1+r)ᵗ)</td>
+                </tr>
+                <tr>
+                    <td>Internal Rate of Return (IRR)</td>
+                    <td>Discount rate making NPV zero</td>
+                    <td>Calculated through iteration</td>
+                </tr>
+            </table>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">3. A project requires an initial investment of $50,000 and generates a net profit margin of $10 per unit. What is the breakeven point in units?</div>
+                <div class="quiz-options">
+                    <input type="radio" name="q3" id="q3a"> <label for="q3a">500 units</label><br>
+                    <input type="radio" name="q3" id="q3b"> <label for="q3b">5,000 units</label><br>
+                    <input type="radio" name="q3" id="q3c"> <label for="q3c">50,000 units</label><br>
+                    <input type="radio" name="q3" id="q3d"> <label for="q3d">10,000 units</label>
+                </div>
+                <button class="show-answer" onclick="showAnswer(3)">Show Answer</button>
+                <div class="quiz-answer" id="answer3">
+                    <strong>Correct Answer:</strong> 5,000 units<br>
+                    <strong>Explanation:</strong> Breakeven Point = Initial Investment / Net Profit Margin = $50,000 / $10 = 5,000 units
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Charter</h2>
+            <p>The project charter formally authorizes the project and provides the project manager with authority to apply organizational resources.</p>
+            
+            <div class="highlight-box">
+                <h3>Key Elements of a Project Charter</h3>
+                <ul>
+                    <li>Project purpose and justification</li>
+                    <li>Measurable objectives and success criteria</li>
+                    <li>High-level requirements and deliverables</li>
+                    <li>Overall project risks</li>
+                    <li>Summary milestone schedule</li>
+                    <li>Preapproved financial resources</li>
+                    <li>Key stakeholders</li>
+                    <li>Project approval requirements</li>
+                    <li>Assigned project manager and authority level</li>
+                    <li>Sponsor authorization</li>
+                </ul>
+            </div>
+            
+            <div class="assignment-box">
+                <h3>Assignment: Create a Project Charter</h3>
+                <p>Develop a project charter for one of the following:</p>
+                <ol>
+                    <li>Implementation of a new CRM system for a sales organization</li>
+                    <li>Development of a mobile app for a local restaurant</li>
+                    <li>Office relocation project for a mid-sized company</li>
+                </ol>
+                <p><strong>Requirements:</strong> Include all key elements of a project charter. Length: 2-3 pages.</p>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">4. Which of the following is typically NOT included in a project charter?</div>
+                <div class="quiz-options">
+                    <input type="radio" name="q4" id="q4a"> <label for="q4a">Detailed work breakdown structure</label><br>
+                    <input type="radio" name="q4" id="q4b"> <label for="q4b">Project purpose and justification</label><br>
+                    <input type="radio" name="q4" id="q4c"> <label for="q4c">High-level project risks</label><br>
+                    <input type="radio" name="q4" id="q4d"> <label for="q4d">Summary milestone schedule</label>
+                </div>
+                <button class="show-answer" onclick="showAnswer(4)">Show Answer</button>
+                <div class="quiz-answer" id="answer4">
+                    <strong>Correct Answer:</strong> Detailed work breakdown structure<br>
+                    <strong>Explanation:</strong> A detailed WBS is created during the planning phase, not in the charter. The charter contains high-level information to authorize the project.
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li>The initiation phase establishes the project's foundation and justification</li>
+                <li>A strong business case demonstrates the project's value and feasibility</li>
+                <li>The MOV provides measurable success criteria aligned with organizational goals</li>
+                <li>Feasibility analysis (financial, technical, organizational) reduces project risk</li>
+                <li>The project charter formally authorizes the project and provides authority</li>
+                <li>Financial analysis methods (ROI, NPV, breakeven) help evaluate project viability</li>
+            </ul>
+            
+            <h3>Discussion Questions</h3>
+            <ol>
+                <li>Why is the initiation phase critical to project success?</li>
+                <li>How might an inadequate business case lead to project failure?</li>
+                <li>What are the risks of not properly identifying stakeholders during initiation?</li>
+                <li>How does a well-defined MOV help guide project decisions?</li>
+                <li>What factors would you consider when choosing between financial analysis methods?</li>
+            </ol>
+        </div>
+        
+        <a href="index.html" class="back-button">Back to All Sessions</a>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="developer-signature">
+                devG | gaiii123
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        function showAnswer(questionNum) {
+            var answer = document.getElementById("answer" + questionNum);
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+            } else {
+                answer.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
