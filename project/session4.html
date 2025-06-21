@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 4 - Estimating Schedule and Budget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .lecturer-info {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #4A00E0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h3 {
+            color: #8E2DE2;
+            margin: 20px 0 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box {
+            background-color: #f5f0ff;
+            border-left: 4px solid #8E2DE2;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #4A00E0;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .developer-signature {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin-top: 10px;
+            color: #bdc3c7;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4A00E0;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #8E2DE2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #4A00E0;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .formula-box {
+            background: #e6e6ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        
+        .quiz-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f0e6ff;
+            border-radius: 8px;
+        }
+        
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-answer {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e6ffe6;
+            border-left: 4px solid #2ecc71;
+            display: none;
+        }
+        
+        .show-answer {
+            background: #4A00E0;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .show-answer:hover {
+            background: #8E2DE2;
+        }
+        
+        .case-study {
+            background: #ffe6f2;
+            padding: 20px;
+            border-left: 4px solid #ff0066;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .gantt-example {
+            background: #e6f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .gantt-row {
+            display: flex;
+            margin-bottom: 5px;
+            align-items: center;
+        }
+        
+        .gantt-label {
+            width: 150px;
+            font-weight: bold;
+        }
+        
+        .gantt-bar {
+            height: 20px;
+            background: #4A00E0;
+            margin-right: 2px;
+            border-radius: 3px;
+        }
+        
+        .gantt-bar.planned {
+            background: #8E2DE2;
+            opacity: 0.7;
+        }
+        
+        .gantt-bar.actual {
+            background: #00cc66;
+        }
+        
+        .gantt-timescale {
+            display: flex;
+            margin-left: 150px;
+        }
+        
+        .gantt-time {
+            width: 30px;
+            text-align: center;
+            font-size: 0.8em;
+        }
+        
+        @media (max-width: 768px) {
+            .content-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Estimating Schedule and Budget</h1>
+            <p>Session 4 - Planning Time and Cost Management</p>
+            <div class="lecturer-info">
+                Department of Industrial Management | University of Kelaniya
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="content-section">
+            <h2>Estimation Techniques</h2>
+            <p>Project estimation involves predicting the time, cost, and resources needed to complete project activities.</p>
+            
+            <div class="highlight-box">
+                <h3>Traditional Estimation Approaches</h3>
+                <table>
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                        <th>Accuracy Range</th>
+                    </tr>
+                    <tr>
+                        <td>Guesstimating</td>
+                        <td>Informal, experience-based estimates</td>
+                        <td>±50% or more</td>
+                    </tr>
+                    <tr>
+                        <td>Delphi Technique</td>
+                        <td>Anonymous expert consensus through rounds of estimation</td>
+                        <td>±30%</td>
+                    </tr>
+                    <tr>
+                        <td>Analogous (Comparative)</td>
+                        <td>Based on similar past projects</td>
+                        <td>±15%</td>
+                    </tr>
+                    <tr>
+                        <td>Parametric Modeling</td>
+                        <td>Statistical relationship between variables</td>
+                        <td>±10%</td>
+                    </tr>
+                    <tr>
+                        <td>Bottom-Up</td>
+                        <td>Estimating individual tasks and summing up</td>
+                        <td>±5%</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">1. Which estimation technique typically provides the most accurate results?</div>
+                <div class="quiz-options">
+                    <input type="radio" name="q1" id="q1a"> <label for="q1a">Guesstimating</label><br>
+                    <input type="radio" name="q1" id="q1b"> <label for="q1b">Analogous estimation</label><br>
+                    <input type="radio" name="q1" id="q1c"> <label for="q1c">Bottom-up estimation</label><br>
+                    <input type="radio" name="q1" id="q1d"> <label for="q1d">Delphi technique</label>
+                </div>
+                <button class="show-answer" onclick="showAnswer(1)">Show Answer</button>
+                <div class="quiz-answer" id="answer1">
+                    <strong>Correct Answer:</strong> Bottom-up estimation<br>
+                    <strong>Explanation:</strong> Bottom-up estimation is most accurate (±5%) because it involves estimating individual work packages and summing them up, though it's also the most time-consuming.
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Software Engineering Estimation Techniques</h2>
+            <p>Specialized techniques for estimating software development projects:</p>
+            
+            <h3>Function Point Analysis</h3>
+            <p>Measures software size based on functionality delivered to users:</p>
+            <ul>
+                <li><strong>Inputs:</strong> Data entering the system</li>
+                <li><strong>Outputs:</strong> Reports, screens, error messages</li>
+                <li><strong>Inquiries:</strong> Interactive inputs requiring response</li>
+                <li><strong>Logical Files:</strong> Internal data groups</li>
+                <li><strong>Interfaces:</strong> External connections</li>
+            </ul>
+            
+            <div class="formula-box">
+                <strong>Function Point Calculation:</strong><br>
+                FP = UAF × VAF<br>
+                Where:<br>
+                UAF = Unadjusted Function Points (sum of all weighted counts)<br>
+                VAF = Value Adjustment Factor (0.65 + (0.01 × TDI))<br>
+                TDI = Total Degree of Influence (sum of 14 system characteristics)
+            </div>
+            
+            <h3>COCOMO (Constructive Cost Model)</h3>
+            <p>Algorithmic model using Lines of Code (LOC) to estimate effort:</p>
+            
+            <div class="highlight-box">
+                <h4>COCOMO Models</h4>
+                <table>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Effort Formula</th>
+                        <th>Duration Formula</th>
+                    </tr>
+                    <tr>
+                        <td>Organic</td>
+                        <td>Small, simple projects</td>
+                        <td>PM = 2.4 × KDSI<sup>1.05</sup></td>
+                        <td>TDEV = 2.5 × PM<sup>0.38</sup></td>
+                    </tr>
+                    <tr>
+                        <td>Semi-Detached</td>
+                        <td>Medium complexity</td>
+                        <td>PM = 3.0 × KDSI<sup>1.12</sup></td>
+                        <td>TDEV = 2.5 × PM<sup>0.35</sup></td>
+                    </tr>
+                    <tr>
+                        <td>Embedded</td>
+                        <td>Complex, constrained</td>
+                        <td>PM = 3.6 × KDSI<sup>1.20</sup></td>
+                        <td>TDEV = 2.5 × PM<sup>0.32</sup></td>
+                    </tr>
+                </table>
+                <p>Where: PM = Person Months, KDSI = Thousands of Delivered Source Instructions</p>
+            </div>
+            
+            <div class="case-study">
+                <h3>Example: COCOMO Calculation</h3>
+                <p><strong>Project:</strong> Semi-Detached project with 10,600 Java LOC</p>
+                <ol>
+                    <li>Convert LOC to Function Points: 10,600 LOC / 53 LOC per FP = 200 FP</li>
+                    <li>Calculate Effort: PM = 3.0 × (10.6)<sup>1.12</sup> = 42.21 person-months</li>
+                    <li>Calculate Duration: TDEV = 2.5 × (42.21)<sup>0.35</sup> = 9.26 months</li>
+                    <li>Calculate Team Size: People = PM / TDEV = 42.21 / 9.26 ≈ 4.55 (5 people)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Scheduling Techniques</h2>
+            
+            <h3>Gantt Charts</h3>
+            <p>Bar charts showing project activities against time:</p>
+            
+            <div class="gantt-example">
+                <div class="gantt-timescale">
+                    <div class="gantt-time">1</div>
+                    <div class="gantt-time">2</div>
+                    <div class="gantt-time">3</div>
+                    <div class="gantt-time">4</div>
+                    <div class="gantt-time">5</div>
+                    <div class="gantt-time">6</div>
+                    <div class="gantt-time">7</div>
+                    <div class="gantt-time">8</div>
+                </div>
+                <div class="gantt-row">
+                    <div class="gantt-label">Task A</div>
+                    <div class="gantt-bar planned" style="width: 60px;"></div>
+                    <div class="gantt-bar actual" style="width: 45px;"></div>
+                </div>
+                <div class="gantt-row">
+                    <div class="gantt-label">Task B</div>
+                    <div class="gantt-bar planned" style="width: 90px; margin-left: 30px;"></div>
+                    <div class="gantt-bar actual" style="width: 60px; margin-left: 30px;"></div>
+                </div>
+                <div class="gantt-row">
+                    <div class="gantt-label">Task C</div>
+                    <div class="gantt-bar planned" style="width: 60px; margin-left: 90px;"></div>
+                </div>
+                <p><small>Blue = Planned, Green = Actual progress</small></p>
+            </div>
+            
+            <h3>Activity-on-Node (AON) Network Diagrams</h3>
+            <p>Shows project activities as nodes with dependencies:</p>
+            <ul>
+                <li><strong>Forward Pass:</strong> Calculates Early Start (ES) and Early Finish (EF)</li>
+                <li><strong>Backward Pass:</strong> Calculates Late Start (LS) and Late Finish (LF)</li>
+                <li><strong>Float/Slack:</strong> LF - EF or LS - ES (total float for non-critical paths)</li>
+                <li><strong>Critical Path:</strong> Longest path with zero float</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h4>Example Activity Table</h4>
+                <table>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Duration</th>
+                        <th>Predecessor</th>
+                        <th>ES</th>
+                        <th>EF</th>
+                        <th>LS</th>
+                        <th>LF</th>
+                        <th>Float</th>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>2</td>
+                        <td>-</td>
+                        <td>0</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>5</td>
+                        <td>A</td>
+                        <td>2</td>
+                        <td>7</td>
+                        <td>2</td>
+                        <td>7</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>4</td>
+                        <td>B</td>
+                        <td>7</td>
+                        <td>11</td>
+                        <td>8</td>
+                        <td>12</td>
+                        <td>1</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <h3>PERT (Program Evaluation Review Technique)</h3>
+            <p>Uses three estimates to account for uncertainty:</p>
+            <div class="formula-box">
+                <strong>Expected Duration:</strong> (O + 4M + P) / 6<br>
+                <strong>Standard Deviation:</strong> (P - O) / 6<br>
+                <strong>Variance:</strong> [(P - O) / 6]<sup>2</sup><br>
+                Where:<br>
+                O = Optimistic, M = Most Likely, P = Pessimistic
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Advanced Scheduling Concepts</h2>
+            
+            <h3>Dependency Relationships</h3>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Symbol</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>Finish-to-Start (FS)</td>
+                    <td>→</td>
+                    <td>B can't start until A finishes</td>
+                    <td>Pour concrete after foundation is dug</td>
+                </tr>
+                <tr>
+                    <td>Start-to-Start (SS)</td>
+                    <td>⇉</td>
+                    <td>B can't start until A starts</td>
+                    <td>Level concrete while pouring begins</td>
+                </tr>
+                <tr>
+                    <td>Finish-to-Finish (FF)</td>
+                    <td>⇶</td>
+                    <td>B can't finish until A finishes</td>
+                    <td>Inspect wiring while installation completes</td>
+                </tr>
+                <tr>
+                    <td>Start-to-Finish (SF)</td>
+                    <td>⇝</td>
+                    <td>B can't finish until A starts</td>
+                    <td>Roof assembly completes after truss delivery begins</td>
+                </tr>
+            </table>
+            
+            <h3>Lead and Lag Times</h3>
+            <ul>
+                <li><strong>Lead:</strong> Overlapping activities (starting B before A finishes)</li>
+                <li><strong>Lag:</strong> Waiting time between activities (paint drying before carpeting)</li>
+            </ul>
+            
+            <h3>Critical Chain Method</h3>
+            <p>Addresses Parkinson's Law (work expands to fill time) by:</p>
+            <ul>
+                <li>Aggregating safety time at the end (project buffer)</li>
+                <li>Using feeding buffers for non-critical paths</li>
+                <li>Focusing on resource constraints</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Cost Management</h2>
+            
+            <h3>Budget Components</h3>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>Direct Costs</td>
+                    <td>Directly attributable to project work</td>
+                    <td>Labor, materials, equipment</td>
+                </tr>
+                <tr>
+                    <td>Indirect Costs</td>
+                    <td>Overhead shared across projects</td>
+                    <td>Office space, utilities</td>
+                </tr>
+                <tr>
+                    <td>Contingency Reserve</td>
+                    <td>Known risks (within project scope)</td>
+                    <td>10% of estimated costs</td>
+                </tr>
+                <tr>
+                    <td>Management Reserve</td>
+                    <td>Unknown risks (outside project scope)</td>
+                    <td>5% of total budget</td>
+                </tr>
+            </table>
+            
+            <h3>Learning Curves</h3>
+            <p>As workers gain experience, time per unit decreases:</p>
+            <div class="formula-box">
+                <strong>Learning Curve Formula:</strong><br>
+                Y<sub>x</sub> = aX<sup>b</sup><br>
+                Where:<br>
+                Y<sub>x</sub> = Time for x<sup>th</sup> unit<br>
+                a = Time for 1<sup>st</sup> unit<br>
+                X = Unit number<br>
+                b = log(learning %)/log(2) (e.g., 0.322 for 80% learning curve)
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">2. What is the correct formula for calculating expected duration in PERT analysis?</div>
+                <div class="quiz-options">
+                    <input type="radio" name="q2" id="q2a"> <label for="q2a">(O + M + P) / 3</label><br>
+                    <input type="radio" name="q2" id="q2b"> <label for="q2b">(O + 4M + P) / 6</label><br>
+                    <input type="radio" name="q2" id="q2c"> <label for="q2c">(O + 2M + P) / 4</label><br>
+                    <input type="radio" name="q2" id="q2d"> <label for="q2d">(O + P) / 2</label>
+                </div>
+                <button class="show-answer" onclick="showAnswer(2)">Show Answer</button>
+                <div class="quiz-answer" id="answer2">
+                    <strong>Correct Answer:</strong> (O + 4M + P) / 6<br>
+                    <strong>Explanation:</strong> PERT uses weighted average that gives 4x weight to the most likely estimate (M) compared to optimistic (O) and pessimistic (P) estimates.
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li>Estimation accuracy improves from guesstimating (±50%) to bottom-up (±5%)</li>
+                <li>Function Points measure software size based on user functionality</li>
+                <li>COCOMO estimates effort and duration based on lines of code</li>
+                <li>Gantt charts visualize schedule, while AON diagrams show dependencies</li>
+                <li>Critical path is the longest path with zero float</li>
+                <li>PERT uses three estimates to account for uncertainty</li>
+                <li>Budget includes direct costs, indirect costs, and reserves</li>
+                <li>Learning curves show productivity improvements over time</li>
+            </ul>
+            
+            <h3>Discussion Questions</h3>
+            <ol>
+                <li>What are the advantages and disadvantages of bottom-up estimation?</li>
+                <li>How does Function Point Analysis differ from Lines of Code as a size measure?</li>
+                <li>Why is the critical path important in project scheduling?</li>
+                <li>How does PERT account for uncertainty in estimates?</li>
+                <li>What's the difference between contingency reserve and management reserve?</li>
+            </ol>
+        </div>
+        
+        <a href="indexproject.html" class="back-button">Back to All Sessions</a>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="developer-signature">
+                devG | gaiii123
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        function showAnswer(questionNum) {
+            var answer = document.getElementById("answer" + questionNum);
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+            } else {
+                answer.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
